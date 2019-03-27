@@ -1,2 +1,2 @@
 # scc
-H. Dietz C compiler ARm port
+H. Dietz C compiler ARM port
