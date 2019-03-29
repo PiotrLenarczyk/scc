@@ -7,7 +7,7 @@ Global:
   __as_NullEntry  __as_NullEntryStrict  command line
               definition:  __as_table_start
               definition:  __as_entries_start
-Loading object C:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\Obj\asmCut.o.
+Loading object C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Obj\asmCut.o.
               definition:  __iar_program_start
               definition:  __vector_table
               definition:  NMI_Handler

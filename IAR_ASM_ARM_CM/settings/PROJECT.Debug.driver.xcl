@@ -1,6 +1,6 @@
 "--endian=little" 
 
-"--cpu=Cortex-M0+" 
+"--cpu=Cortex-M3" 
 
 "--fpu=None" 
 

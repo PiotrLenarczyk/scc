@@ -66,7 +66,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.32.3.20186</state>
+                    <state>8.32.1.18618</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -116,8 +116,8 @@
                 </option>
                 <option>
                     <name>GBECoreSlave</name>
-                    <version>27</version>
-                    <state>35</state>
+                    <version>26</version>
+                    <state>38</state>
                 </option>
                 <option>
                     <name>OGUseCmsis</name>
@@ -133,8 +133,8 @@
                 </option>
                 <option>
                     <name>CoreVariant</name>
-                    <version>27</version>
-                    <state>35</state>
+                    <version>26</version>
+                    <state>38</state>
                 </option>
                 <option>
                     <name>GFPUDeviceSlave</name>
@@ -156,8 +156,8 @@
                 </option>
                 <option>
                     <name>GFPUCoreSlave2</name>
-                    <version>27</version>
-                    <state>35</state>
+                    <version>26</version>
+                    <state>38</state>
                 </option>
                 <option>
                     <name>OGCMSISPackSelectDevice</name>
@@ -768,7 +768,7 @@
                 </option>
                 <option>
                     <name>IlinkIcfFile</name>
-                    <state>C:\Users\X98\Desktop\IAR_ASM_ARM_CM\asm_generic_CM.icf</state>
+                    <state>C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\asm_generic_CM.icf</state>
                 </option>
                 <option>
                     <name>IlinkIcfFileSlave</name>
@@ -1151,7 +1151,7 @@
                 </option>
                 <option>
                     <name>GBECoreSlave</name>
-                    <version>27</version>
+                    <version>26</version>
                     <state>38</state>
                 </option>
                 <option>
@@ -1168,7 +1168,7 @@
                 </option>
                 <option>
                     <name>CoreVariant</name>
-                    <version>27</version>
+                    <version>26</version>
                     <state>38</state>
                 </option>
                 <option>
@@ -1191,7 +1191,7 @@
                 </option>
                 <option>
                     <name>GFPUCoreSlave2</name>
-                    <version>27</version>
+                    <version>26</version>
                     <state>38</state>
                 </option>
                 <option>

@@ -192,6 +192,11 @@ printComma(void)
 };
 
 void
+printSharp(void)
+{	printChar('#');
+};
+
+void
 printNewLine(void)
 {	printChar('\n');
 };
@@ -228,14 +233,11 @@ print_rd(register int r)	/*print destination register*/
 {	printReg(r);
 };
 
-void
-printImmediate(register int r)
-{	printf("%d", r);
-};
+void printImmediate(register int r);	/*target specific*/
 
 void
 printNumber(register int n)
-{	printf("%d", n);
+{	printf("0x%X", n);
 };
 
 //	INSTRUCITON SET API

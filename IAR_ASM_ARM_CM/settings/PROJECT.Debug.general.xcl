@@ -1,10 +1,10 @@
-"D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\bin\armproc.dll" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\bin\armproc.dll" 
 
-"D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\bin\armsim2.dll" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\bin\armsim2.dll" 
 
-"C:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\Exe\PROJECT.out" 
+"C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Exe\PROJECT.out" 
 
---plugin="D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\bin\armbat.dll" 
+--plugin="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\bin\armbat.dll" 
 
 
 

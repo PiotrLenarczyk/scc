@@ -23,3 +23,9 @@
 			++s;
 		};
 	};
+
+	void
+	printImmediate(register int r);
+	{	printf("%d", r);
+	};
+	

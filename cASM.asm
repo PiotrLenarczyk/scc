@@ -1,29 +1,34 @@
 	.text
 	.globl	main
 	.globl	_exit
+;====
+;FOO
+;====
+		movs	r6,#((0xFFFFFFF1 >> 0x0) & 0xFF)
+		adds	r6,#((0xFFFFFFF1 >> 0x8) & 0xFF)
+		adds	r6,#((0xFFFFFFF1 >> 0x10) & 0xFF)
+		adds	r6,#((0xFFFFFFF1 >> 0x18) & 0xFF)
+		mov	r1,r6
+	adds	r0,r1
+
+;====
 ENTRY:
 main:
-	movs	pc,4096
 	bl	_main
 	.text
 	.globl	_main
-_0:
-	adds	r3,r7,-8
-	ldrW	r4,0,5
-	orrs	r4,0,5
-	sw	r4,0(r3)
-	orrs	r3,r4,0
-	adds	r3,0,-1
-	orrs	r1,r3,0
-_1:
-	lw	r0,-4(r7)
-	orrs	sp,r7,0
-	lw	r7,0(sp)
-	adds	sp,sp,4
-	j	r0
+_0x0:
+	adds	r3,#0xFFFFFFFF
+	orrs	r1,r3,ERROR_NULL_REG
+_0x1:
+	lw	lr,[r7,#0xFFFFFFFC]
+	orrs	sp,r7,ERROR_NULL_REG
+	lw	r7,[sp,#0x0]
+	adds	sp,sp,#0x4
+	j	lr
 _main:
-	adds	sp,sp,-16
-	sw	r7,12(sp)
-	adds	r7,sp,12
-	sw	r0,-4(r7)
-	j	_0
+	adds	sp,sp,#0xFFFFFFF0
+	str	r7,[sp,#0xC]
+	adds	r7,sp,#0xC
+	str	lr,[r7,#0xFFFFFFFC]
+	j	_0x0

@@ -1,20 +1,26 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.32.3.193/W32 for ARM                  29/Mar/2019  14:44:40
-# Copyright 2007-2019 IAR Systems AB.
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  30/Mar/2019  00:19:08
+# Copyright 2007-2018 IAR Systems AB.
 #
-#    Output file  =  C:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\Exe\PROJECT.out
-#    Map file     =  C:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\List\PROJECT.map
+#    Output file  =  
+#        C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Exe\PROJECT.out
+#    Map file     =  
+#        C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\List\PROJECT.map
 #    Command line =  
-#        -f C:\Users\X98\AppData\Local\Temp\EW2DF6.tmp
-#        (C:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\Obj\asmCut.o
+#        -f C:\Users\piotr\AppData\Local\Temp\EWE00F.tmp
+#        (C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Obj\asmCut.o
 #        --no_out_extension -o
-#        C:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\Exe\PROJECT.out --redirect
-#        _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb --map
-#        C:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\List\PROJECT.map --log
+#        C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Exe\PROJECT.out
+#        --redirect _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb
+#        --map
+#        C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\List\PROJECT.map
+#        --log
 #        libraries,initialization,modules,redirects,sections,veneers,unused_fragments,call_graph
-#        --log_file C:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\List\PROJECT.log
-#        --config C:\Users\X98\Desktop\IAR_ASM_ARM_CM\asm_generic_CM.icf
+#        --log_file
+#        C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\List\PROJECT.log
+#        --config
+#        C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\asm_generic_CM.icf
 #        --semihosting --no_library_search --entry __iar_program_start --vfe
 #        --text_out locale)
 #
@@ -40,10 +46,10 @@ No sections matched the following patterns:
   .intvec   ro code          0x0   0x10  asmCut.o [1]
                           - 0x10   0x10
 
-"P1":                              0x12
-  .text     ro code         0x10   0x10  asmCut.o [1]
-  .text     ro code         0x20    0x2  asmCut.o [1]
-                          - 0x22   0x12
+"P1":                              0x1e
+  .text     ro code         0x10   0x1c  asmCut.o [1]
+  .text     ro code         0x2c    0x2  asmCut.o [1]
+                          - 0x2e   0x1e
 
 "P2":                             0x400
   CSTACK             0x2000'0000  0x400  <Block>
@@ -54,7 +60,7 @@ Unused ranges:
 
   From      To    Size
   ----      --    ----
-  0x22  0x1fff  0x1fde
+  0x2e  0x1fff  0x1fd2
 
 
 
@@ -68,14 +74,14 @@ command line/config:
     --------------------------------
     Total:
 
-C:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\Obj: [1]
-    asmCut.o             34
+C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Obj: [1]
+    asmCut.o             46
     --------------------------------
-    Total:               34
+    Total:               46
 
     Linker created             1 024
 ------------------------------------
-    Grand Total:         34    1 024
+    Grand Total:         46    1 024
 
 
 *******************************************************************************
@@ -86,15 +92,15 @@ Entry                    Address  Size  Type      Object
 -----                    -------  ----  ----      ------
 CSTACK$$Base         0x2000'0000         --   Gb  - Linker created -
 CSTACK$$Limit        0x2000'0400         --   Gb  - Linker created -
-HardFault_Handler           0x21        Code  Gb  asmCut.o [1]
-NMI_Handler                 0x21        Code  Gb  asmCut.o [1]
+HardFault_Handler           0x2d        Code  Gb  asmCut.o [1]
+NMI_Handler                 0x2d        Code  Gb  asmCut.o [1]
 __iar_program_start         0x11        Code  Gb  asmCut.o [1]
 __vector_table               0x0        Data  Gb  asmCut.o [1]
 
 
-[1] = C:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\Obj
+[1] = C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Obj
 
-     34 bytes of readonly  code memory
+     46 bytes of readonly  code memory
   1 024 bytes of readwrite data memory
 
 Errors: none

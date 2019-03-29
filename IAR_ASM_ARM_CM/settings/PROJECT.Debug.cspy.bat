@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\Users\X98\Desktop\IAR_ASM_ARM_CM\settings\PROJECT.Debug.general.xcl" --backend -f "C:\Users\X98\Desktop\IAR_ASM_ARM_CM\settings\PROJECT.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\settings\PROJECT.Debug.general.xcl" --backend -f "C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\settings\PROJECT.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\Users\X98\Desktop\IAR_ASM_ARM_CM\settings\PROJECT.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\X98\Desktop\IAR_ASM_ARM_CM\settings\PROJECT.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\settings\PROJECT.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\settings\PROJECT.Debug.driver.xcl" 
 
 @echo off 
 :end

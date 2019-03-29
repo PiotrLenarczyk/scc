@@ -1,4 +1,4 @@
-#define NULL_ADDR	NULL_ADDR
+#define NULL_REG	NULL_REG
 #define T0	R3	//first temporary reg
 #define	A0	R1	//first argument reg
 #define	GP 	PC
@@ -6,19 +6,22 @@
 #define	V0	R1
 #define	RA	LR
 	enum {
-		NULL_ADDR, 
+		NULL_REG, 
 		R0, R1, R2, R3, R4, R5, R6, R7, 
+		R8, R9, R10, R11, R12,
 		SP, LR, PC, APSR		//SP = MSP
 	};
 	char	*regname[32] = {
-		"0", 	
+		"ERROR_NULL_REG", 	
 		"r0", 	"r1", 	"r2", 	"r3", 	"r4", 	"r5", 	"r6",	"r7",
+		"r8", 	"r9", 	"r10", 	"r11", 	"r12",
 		"sp", 	"lr", 	"pc", 	"apsr", 
 	};
 //=====================================================
 //{r0-r2}	-	GPR's
 //{r3-r5}	-	temporary GPR's
-//{r6-r7}	-	spare
+//{r6}		-	spare
+//{r7}		-	FP?
 //{r8-12}	-	immediate stuff handling via stacking regs to higher regs
 //=====================================================
 //=====================================================
@@ -36,15 +39,16 @@
 void
 printReg(register int r)
 {	register char *s = regname[r];
-
-	//printChar('$');
 	while (*s) 
 	{	printChar(*s);
 		++s;
 	};
 };
 
-
+void
+printImmediate(register int r)
+{	printf("#0x%X", r);
+};
 
 
 

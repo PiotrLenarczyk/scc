@@ -1,29 +1,20 @@
 ###############################################################################
 #                                                                             #
-#     IAR Assembler V8.32.3.193/W32 for ARM 29/Mar/2019  14:45:37             #
-#     Copyright 1999-2019 IAR Systems AB.                                     #
+#     IAR Assembler V8.32.1.169/W32 for ARM 30/Mar/2019  00:19:08             #
+#     Copyright 1999-2018 IAR Systems AB.                                     #
 #                                                                             #
-#           Source file   =  C:\Users\X98\Desktop\IAR_ASM_ARM_CM\asmCut.s     #
-#           List file     =  C:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\List\asmCut.lst#
-#           Object file   =  C:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\Obj\asmCut.o#
-#           Command line  =  -f C:\Users\X98\AppData\Local\Temp\EWBAC.tmp     #
-#                            (C:\Users\X98\Desktop\IAR_ASM_ARM_CM\asmCut.s    #
-#                            -OC:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\Obj  #
+#           Source file   =  C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\asmCut.s#
+#           List file     =  C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\List\asmCut.lst#
+#           Object file   =  C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Obj\asmCut.o#
+#           Command line  =  -f C:\Users\piotr\AppData\Local\Temp\EWDF05.tmp  #
+#                            (C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\asmCut.s #
+#                            -OC:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Obj #
 #                            -s+ -M<> -w+ -r                                  #
-#                            -LC:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\List #
-#                            -cAO -i -B -t2 -xDI2 --cpu Cortex-M0+ --fpu      #
+#                            -LC:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\List #
+#                            -cAO -i -B -t2 -xDI2 --cpu Cortex-M3 --fpu       #
 #                            None)                                            #
 #                                                                             #
 ###############################################################################
-
-                                  str r0, [r3+#4]
-
-                                -------------^
-
-                                "C:\Users\X98\Desktop\IAR_ASM_ARM_CM\21_tmpCom
-                       piler.s",10  Error[0]: Invalid syntax
-
-
 
     1                                   PUBLIC  __iar_program_start
 
@@ -100,28 +91,41 @@
 
     1                           thumb
 
-    2                           memAddr equ 0x20000100
+    8                           memAddr equ 0x20000100
 
-    3                           main:
+    9                           main:
 
-    4    00000000 1120            movs r0, #0x11
+   10    00000000 DD26               movs    r6,#((0xAABBCCDD >> 0x0) &
+                                                  0xFF)
 
-    5    00000002 0121            movs r1, #0x1
+   11    00000002 CC36                          adds    r6,#((0xAABBCCDD >>
+                                                             0x8) & 0xFF)
 
-    6    00000004 481C            adds  r0, r1, #0x1
+   12    00000004 BB36                          adds    r6,#((0xAABBCCDD >>
+                                                             0x10) & 0xFF)
 
-    7                             
+   13    00000006 AA36                          adds    r6,#((0xAABBCCDD >>
+                                                             0x18) & 0xFF)
 
-    8    00000006 014B            ldr r3, =memAddr
+   14                           
 
-    9    00000008 1860            str r0, [r3]
+   15    00000008 1120            movs r0, #0x11
 
-                                  str r0, [r3+#4]
+   16    0000000A 0121            movs r1, #0x1
 
-                                -------------^
+   17                             
 
-                                "C:\Users\X98\Desktop\IAR_ASM_ARM_CM\21_tmpCom
-                       piler.s",10  Error[0]: Invalid syntax
+   18    0000000C 024B            ldr r3, =memAddr
+
+   19    0000000E 1860            str r0, [r3]
+
+   20    00000010 3860            str r0, [r7]
+
+   21                             
+
+   22    00000012 2468            ldr r4, [r4]
+
+   23                             
 
    36                           //#include ""
 
@@ -135,7 +139,7 @@
 
    41                           //==========================================
 
-   42    0000000A FEE7          loopEnd: B loopEnd
+   42    00000014 FEE7          loopEnd: B loopEnd
 
    43                           //==========================================
 
@@ -143,7 +147,7 @@
 
    44.1                                  TABLE
 
-   44.2  0000000C 00010020              Reference on line 8
+   44.2  00000018 00010020              Reference on line 18
 
    45                                   SECTION CSTACK:DATA:NOROOT(1)
 
@@ -675,21 +679,37 @@ __ARM6M__            #define, value: 11, line:         0
 
 __ARM6SM__           #define, value: 12, line:         0  
 
+__ARM6T2__           #define, value: 6, line:         0  
+
 __ARM6__             #define, value: 6, line:         0  
+
+__ARM7M__            #define, value: 7, line:         0  
+
+__ARM7__             #define, value: 7, line:         0  
 
 __ARM_32BIT_STATE    #define, value: 1, line:         0  
 
-__ARM_ARCH           #define, value: 6, line:         0  
+__ARM_ARCH           #define, value: 7, line:         0  
 
-__ARM_ARCH_ISA_THUMB #define, value: 1, line:         0  
+__ARM_ARCH_ISA_THUMB #define, value: 2, line:         0  
 
 __ARM_ARCH_PROFILE   #define, value: 'M', line:         0  
+
+__ARM_FEATURE_CLZ    #define, value: 1, line:         0  
+
+__ARM_FEATURE_IDIV   #define, value: 1, line:         0  
+
+__ARM_FEATURE_LDREX  #define, value: 7, line:         0  
+
+__ARM_FEATURE_QBIT   #define, value: 1, line:         0  
+
+__ARM_FEATURE_SAT    #define, value: 1, line:         0  
 
 __ARM_PROFILE_M__    #define, value: 1, line:         0  
 
 __BUILD_NUMBER__     #define,            line:         0  
 
-__CORE__             #define, value: __ARM6M__, line:         0  
+__CORE__             #define, value: __ARM7M__, line:         0  
 
 __DATE__             #define,            line:         0  
 
@@ -731,13 +751,19 @@ ifdef                PREPROCESSOR DIRECTIVE
 
 ifndef               PREPROCESSOR DIRECTIVE 
 
+immed                Target symbol: 0 
+
 include              PREPROCESSOR DIRECTIVE 
+
+ldrW                 MACRO 
 
 line                 PREPROCESSOR DIRECTIVE 
 
 message              PREPROCESSOR DIRECTIVE 
 
 pragma               PREPROCESSOR DIRECTIVE 
+
+reg                  Target symbol: 0 
 
 undef                PREPROCESSOR DIRECTIVE 
 
@@ -784,11 +810,11 @@ TID                 ABS    CONST UNTYP.           ASEG       4F00
 
 __iar_program_start REL    CONST PUB UNTYP.       .text      1 
 
-__lab0              REL    CONST UNTYP.           .text      C 
+__lab0              REL    CONST UNTYP.           .text      18 
 
 __vector_table      REL    CONST PUB UNTYP.       .intvec    0 
 
-loopEnd             REL    CONST UNTYP.           .text      B 
+loopEnd             REL    CONST UNTYP.           .text      15 
 
 main                REL    CONST UNTYP.           .text      1 
 
@@ -801,9 +827,10 @@ thumb               REL    CONST UNTYP.           .text      1
 
 
 ##############################
-#        Errors:   1         #
+#           CRC:0            #
+#        Errors:   0         #
 #        Warnings: 0         #
-#         Bytes: 34          #
+#         Bytes: 46          #
 ##############################
 
 
