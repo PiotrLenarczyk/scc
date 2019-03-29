@@ -121,12 +121,11 @@ void	decl(void);
 
 int
 isNameChar(register int t)
-{
-	return(((t >= '0') && (t <= '9')) ||
+{	return(((t >= '0') && (t <= '9')) ||
 	       ((t >= 'A') && (t <= 'Z')) ||
 	       ((t >= 'a') && (t <= 'z')) ||
 	       (t == '_'));
-}
+};
 
 char *
 nameString(register int ipos)
@@ -179,103 +178,73 @@ decSp(void) /*decrement stack pointer*/
 
 void
 printChar(register int c)
-{
-	putchar(c);
-}
+{	putchar(c);
+};
 
 void
 printTab(void)
-{
-	printChar('\t');
-}
+{	printChar('\t');
+};
 
 void
 printComma(void)
-{
-	printChar(',');
-}
+{	printChar(',');
+};
 
 void
 printNewLine(void)
-{
-	printChar('\n');
-}
+{	printChar('\n');
+};
 
 void
 print(register char *s,
 register int len)
-{
-	while (--len >= 0) {
-		printChar(*s);
+{	while (--len >= 0) 
+	{	printChar(*s);
 		++s;
-	}
-}
+	};
+};
 
-#if (COMPILER_TARGET == MIPS)
+//#if 	(COMPILER_TARGET == MIPS)
+#if defined MIPS
 	#include "sccMIPS_REGS.c"
+//#elif 	(COMPILER_TARGET == ARM_CM0)
 #elif defined	ARM_CM0
-	enum {
-		ZERO,	AT,	V0,	V1,	A0,	A1,	A2,	A3,
-		T0,	T1,	T2,	T3,	T4,	T5,	T6,	T7,
-		S0,	S1,	S2,	S3,	S4,	S5,	S6,	S7,
-		T8,	T9,	K0,	K1,	GP,	SP,	FP,	RA
-	};
-	char	*regname[32] = {
-		"0",	"at",	"v0",	"v1",	"a0",	"a1",	"a2",	"a3",
-		"t0",	"t1",	"t2",	"t3",	"t4",	"t5",	"t6",	"t7",
-		"s0",	"s1",	"s2",	"s3",	"s4",	"s5",	"s6",	"s7",
-		"t8",	"t9",	"k0",	"k1",	"gp",	"sp",	"fp",	"ra"
-	};
+	#include "sccARM_REGS.c"
 #endif
-#define	TOS	(T0 + (sp-1))
-#define	NOS	(T0 + (sp-2))
-#define	TMP	(T0 + sp)
-
-void
-printReg(register int r)
-{
-	register char *s = regname[r];
-
-	printChar('$');
-	while (*s) {
-		printChar(*s);
-		++s;
-	}
-}
 
 void
 print_rt(register int r)	/*print temporary register*/
-{
-	printReg(r);
-}
+{	printReg(r);
+};
 
 void
 print_rs(register int r)	/*print source register*/
-{
-	printReg(r);
-}
+{	printReg(r);
+};
 
 void
 print_rd(register int r)	/*print destination register*/
-{
-	printReg(r);
-}
+{	printReg(r);
+};
 
 void
 printImmediate(register int r)
-{
-	printf("%d", r);
-}
+{	printf("%d", r);
+};
 
 void
 printNumber(register int n)
-{
-	printf("%d", n);
-}
+{	printf("%d", n);
+};
 
 //	INSTRUCITON SET API
-#if (COMPILER_TARGET == MIPS)
+//#if (COMPILER_TARGET == MIPS)
+#if defined MIPS
 	#include "sccMIPS_FUNCTIONS.c"
+//#elif (COMPILER_TARGET == ARM_CM0)
+#elif defined ARM_CM0
+	#include "sccARM_FUNCTIONS.c"
 #endif	//TARGET == MIPS
 
 
@@ -284,161 +253,157 @@ printNumber(register int n)
 
 int
 prefixis(register char *p)
-{
-	register int i = 0;
+{	register int i = 0;
 
-	for (;;) {
-		register int t = p[i];
-
-		if (t == 0) {
-			ipos += i;
+	for (;;) 
+	{	register int t = p[i];
+		if (t == 0) 
+		{	ipos += i;
 			return(1);
-		}
-		if (t != input[ipos + i]) {
-			return(0);
-		}
+		};
+		if (t != input[ipos + i]) 
+		{	return(0);
+		};
 		++i;
-	}
-}
+	};
+};
 
 int
 nameis(register char *p)
-{
-	register int i = 0;
+{	register int i = 0;
 
-	for (;;) {
-		register int t = p[i];
+	for (;;) 
+	{	register int t = p[i];
 
-		if (!isNameChar(t)) {
-			if (!isNameChar(input[ipos + i])) {
-				ipos += i;
+		if (!isNameChar(t)) 
+		{	if (!isNameChar(input[ipos + i])) 
+			{	ipos += i;
 				return(1);
-			} else {
-				return(0);
-			}
-		}
-		if (t != input[ipos + i]) {
-			return(0);
-		}
+			} else 
+			{	return(0);
+			};
+		};
+		if (t != input[ipos + i]) 
+		{	return(0);
+		};
 		++i;
-	}
-}
+	};
+};
 
 int
 lexhelp(void)
-{
-	register int base = 10;
+{	register int base = 10;
 
 again:
-
 	/* Recognize all the non-name stuff */
-	switch (input[ipos]) {
-
-	/* Handle whitespace, etc. */
-	case '\n':
-#ifdef	NOTNOW
-		printf("#line\t%d:\t", lineno);
-		while (linestart <= ipos) {
-			putchar(input[linestart]);
-			++linestart;
-		}
+	switch (input[ipos]) 
+	{	/* Handle whitespace, etc. */
+		case '\n':
+#ifdef		NOTNOW
+			printf("#line\t%d:\t", lineno);
+			while (linestart <= ipos) 
+			{	putchar(input[linestart]);
+				++linestart;
+			};
 #endif
-		++lineno;
-		/* Fall through... */
-	case ' ':	case '\t':	case '\r':
-		++ipos;
-		goto again;
-	case '\000':
-		return(MYEOF);
-
-	/* Handling of punctuation... */
-	case '=':	case '!':
-	case '<':	case '>':
-	case '+':	case '-':	case '~':
-	case '*':	case '/':	case '%':
-	case '|':	case '&':
-		if (prefixis("==")) return(EQ);
-		if (prefixis("!=")) return(NE);
-		if (prefixis(">=")) return(GE);
-		if (prefixis("<=")) return(LE);
-		if (prefixis("<<")) return(SL);
-		if (prefixis("++")) return(PP);
-		if (prefixis("--")) return(MM);
-		if (prefixis("|=")) return(OE);
-		if (prefixis("^=")) return(XE);
-		if (prefixis("&=")) return(AE);
-		if (prefixis("+=")) return(PE);
-		if (prefixis("-=")) return(ME);
-		if (prefixis("*=")) return(TE);
-		if (prefixis("/=")) return(DE);
-		if (prefixis("%=")) return(RE);
-		if (prefixis("||")) return(OO);
-		if (prefixis("&&")) return(AA);
-		/* Fall through... */
-	case ',':	case '?':	case ':':
-	case '{':	case '}':	case '^':
-	case '[':	case ']':
-	case '(':	case ')':
-	case ';':
-		return(input[ipos++]);
-
-	/* Handling of numbers... */
-	case '0':
-		base = 8;
-		switch (input[++ipos]) {
-		case 'b': base = 2; ++ipos; break;
-		case 'x': base = 16; ++ipos; break;
-		}
-	case '1':	case '2':	case '3':
-	case '4':	case '5':	case '6':
-	case '7':	case '8':	case '9':
-		lexnum = 0;
-		for (;;) {
-			register int t = input[ipos];
-
-			if ((t >= '0') && (t <= '9')) {
-				t -= '0';
-			} else if (((t |= ('a'-'A')) >= 'a') &&
-				   (t <= 'f')) {
-				t -= ('a' - 10);
-			} else {
-				return(NUM);
-			}
-
-			if (t >= base) {
-				error("invalid digit");
-			}
-
-			lexnum = (lexnum * base) + t;
-			++ipos;
-		}
-	case '\'':
-		++ipos;
-		lexnum = input[ipos++];
-		if (input[ipos++] != '\'') {
-			error("ill-formed character constant");
-		}
-		return(NUM);
-	case '"':
-		lexstr = ipos;
-		do {
-			++ipos;
-			if (input[ipos] == 0) {
-				error("string ends in end of input");
-			}
-		} while ((input[ipos] != '"') ||
-			 (input[ipos-1] == '\\'));
-		++ipos;
-		return(STRING);
-	default:
-		if (!isNameChar(input[ipos])) {
-			error("illegal character 0x%02x (%c)",
-			      input[ipos],
-			      input[ipos]);
+			++lineno;
+			/* Fall through... */
+		case ' ':	case '\t':	case '\r':
 			++ipos;
 			goto again;
-		}
-	}
+		case '\000':
+			return(MYEOF);
+
+		/* Handling of punctuation... */
+		case '=':	case '!':
+		case '<':	case '>':
+		case '+':	case '-':	case '~':
+		case '*':	case '/':	case '%':
+		case '|':	case '&':
+			if (prefixis("==")) return(EQ);
+			if (prefixis("!=")) return(NE);
+			if (prefixis(">=")) return(GE);
+			if (prefixis("<=")) return(LE);
+			if (prefixis("<<")) return(SL);
+			if (prefixis("++")) return(PP);
+			if (prefixis("--")) return(MM);
+			if (prefixis("|=")) return(OE);
+			if (prefixis("^=")) return(XE);
+			if (prefixis("&=")) return(AE);
+			if (prefixis("+=")) return(PE);
+			if (prefixis("-=")) return(ME);
+			if (prefixis("*=")) return(TE);
+			if (prefixis("/=")) return(DE);
+			if (prefixis("%=")) return(RE);
+			if (prefixis("||")) return(OO);
+			if (prefixis("&&")) return(AA);
+			/* Fall through... */
+		case ',':	case '?':	case ':':
+		case '{':	case '}':	case '^':
+		case '[':	case ']':
+		case '(':	case ')':
+		case ';':
+			return(input[ipos++]);
+
+		/* Handling of numbers... */
+		case '0':
+			base = 8;
+			switch (input[++ipos]) {
+			case 'b': base = 2; ++ipos; break;
+			case 'x': base = 16; ++ipos; break;
+			}
+		case '1':	case '2':	case '3':
+		case '4':	case '5':	case '6':
+		case '7':	case '8':	case '9':
+			lexnum = 0;
+			for (;;) 
+			{	register int t = input[ipos];
+
+				if ((t >= '0') && (t <= '9')) 
+				{	t -= '0';
+				} else if (((t |= ('a'-'A')) >= 'a') &&
+					   (t <= 'f')) 
+				{
+				t -= ('a' - 10);
+				} else 
+				{	return(NUM);
+				};
+
+				if (t >= base) 
+				{	error("invalid digit");
+				};
+
+				lexnum = (lexnum * base) + t;
+				++ipos;
+			}
+		case '\'':
+			++ipos;
+			lexnum = input[ipos++];
+			if (input[ipos++] != '\'') 
+			{	error("ill-formed character constant");
+			};
+			return(NUM);
+		case '"':
+			lexstr = ipos;
+			do 
+			{	++ipos;
+				if (input[ipos] == 0) 
+				{	error("string ends in end of input");
+				}
+			} while (	(input[ipos] != '"') ||
+						(input[ipos-1] == '\\')
+					);
+			++ipos;
+			return(STRING);
+		default:
+			if (!isNameChar(input[ipos])) 
+			{	error("illegal character 0x%02x (%c)",
+					  input[ipos],
+					  input[ipos]);
+				++ipos;
+				goto again;
+			};
+	};
 
 	/* Must be a name... */
 	if (nameis("int")) return(INT);
@@ -453,9 +418,9 @@ again:
 	if (nameis("goto")) return(GOTO);
 
 	/* Find it in the symbol table */
-	for (lexsym=(symsp-1); lexsym>=0; --lexsym) {
-		if (nameis(&(input[symtab[lexsym].ipos]))) {
-			return(symtab[lexsym].type);
+	for (lexsym=(symsp-1); lexsym>=0; --lexsym) 
+	{	if (nameis(&(input[symtab[lexsym].ipos]))) 
+		{	return(symtab[lexsym].type);
 		}
 	}
 
@@ -465,35 +430,31 @@ again:
 	return(symtab[lexsym].type = ((input[ipos] == ':') ?
 				      TARGET :
 				      WORD));
-}
+};
 
 int
 lex(void)
-{
-	nextToken = lexhelp();
+{	nextToken = lexhelp();
 	return(nextToken);
-}
+};
 
 int
 match(register int t)
-{
-	if (nextToken == t) {
-		lex();
+{	if (nextToken == t) 
+	{	lex();
 		return(1);
-	}
+	};
 	return(0);
-}
+};
 
 int
 assume(register int t)
-{
-	if (!match(t)) {
-		warn("missing %c assumed", t);
+{	if (!match(t)) 
+	{	warn("missing %c assumed", t);
 		return(0);
-	}
+	};
 	return(1);
-}
-
+};
 
 
 /*	Parsing...
@@ -501,280 +462,269 @@ assume(register int t)
 
 void
 memaddr(register int mysym)
-{
-	/* Base address */
-	if (symtab[mysym].scope != 0) {
-		pushfpoff(symtab[mysym].base);
-	} else {
-		pushgpoff(symtab[mysym].base);
-	}
+{	/* Base address */
+	if (symtab[mysym].scope != 0) 
+	{	pushfpoff(symtab[mysym].base);
+	} else 
+	{	pushgpoff(symtab[mysym].base);
+	};
 
 	lex();
-	if (match('[')) {
-		/* subscripted */
+	if (match('[')) 
+	{	/* subscripted */
 		expr();		/* Index value */
 		assume(']');
 
 		/* Multiply by element size */
-		switch (symtab[mysym].size) {
-		case 2:	pushop(MULBY2); break;
-		case 1: break;
-		default:
-			pushop(MULBY4);
-		}
+		switch (symtab[mysym].size) 
+		{	case 2:	pushop(MULBY2); break;
+			case 1: break;
+			default:
+				pushop(MULBY4);
+		};
 
 		pushop('+');	/* Add to base address */
-	}
+	};
 
 	lval(symtab[mysym].size);
-}
+};
 
 void
 unary(void)
-{
-	register int mysym;
+{	register int mysym;
 	register int args = 0;
 
-	switch (nextToken) {
-	case PP:
-		lex();
-		unary();
-		pushdup();
-		pushnum(1);
-		pushop('+');
-		store(1);
-		break;
-	case MM:
-		lex();
-		unary();
-		pushdup();
-		pushnum(-1);
-		pushop('+');
-		store(1);
-		break;
-	case '(':
-		lex();
-		expr();
-		assume(')');
-		break;
-	case '-':
-		lex();
-		unary();
-		pushop(NEG);
-		break;
-	case '!':
-		lex();
-		unary();
-		pushop('!');
-		break;
-	case '~':
-		lex();
-		unary();
-		pushop('~');
-		break;
-	case VAR:
-		memaddr(lexsym);
-		break;
-	case WORD:
-		symtab[lexsym].type = FUNC;
-		symtab[lexsym].base = 0;
-		/* Fall through... */
-	case FUNC:
-		/* Function call */
-		mysym = lexsym;
-		lex();
-		if (!match('(')) {
-			error("undefined variable %s",
-			      nameString(symtab[mysym].ipos));
-		}
-		args = 0;
-		while (!match(')')) {
+	switch (nextToken) 
+	{	case PP:
+			lex();
+			unary();
+			pushdup();
+			pushnum(1);
+			pushop('+');
+			store(1);
+			break;
+		case MM:
+			lex();
+			unary();
+			pushdup();
+			pushnum(-1);
+			pushop('+');
+			store(1);
+			break;
+		case '(':
+			lex();
 			expr();
-			setarg(args++);
-			match(',');
-		}
-		call(mysym);
-		break;
-	case NUM:
-		pushnum(lexnum);
-		lex();
-		break;
-	case STRING:
-		pushnum(defstr(lexstr));
-		lex();
-		break;
-	default:
-		error("malformed expression");
-	}
+			assume(')');
+			break;
+		case '-':
+			lex();
+			unary();
+			pushop(NEG);
+			break;
+		case '!':
+			lex();
+			unary();
+			pushop('!');
+			break;
+		case '~':
+			lex();
+			unary();
+			pushop('~');
+			break;
+		case VAR:
+			memaddr(lexsym);
+			break;
+		case WORD:
+			symtab[lexsym].type = FUNC;
+			symtab[lexsym].base = 0;
+			/* Fall through... */
+		case FUNC:
+			/* Function call */
+			mysym = lexsym;
+			lex();
+			if (!match('(')) 
+			{	error("undefined variable %s",
+					  nameString(symtab[mysym].ipos));
+			}
+			args = 0;
+			while (!match(')')) 
+			{	expr();
+				setarg(args++);
+				match(',');
+			}
+			call(mysym);
+			break;
+		case NUM:
+			pushnum(lexnum);
+			lex();
+			break;
+		case STRING:
+			pushnum(defstr(lexstr));
+			lex();
+			break;
+		default:
+			error("malformed expression");
+	};
 
 	/* Suffix operation */
-	switch (nextToken) {
-	case PP:
-		lex();
-		pushdup();
-		loadnos();
-		pushdup();
-		pushnum(1);
-		pushop('+');
-		store(0);
-		break;
-	case MM:
-		lex();
-		pushdup();
-		loadnos();
-		pushdup();
-		pushnum(1);
-		pushop('+');
-		store(0);
-		break;
-	}
-}
+	switch (nextToken) 
+	{	case PP:
+			lex();
+			pushdup();
+			loadnos();
+			pushdup();
+			pushnum(1);
+			pushop('+');
+			store(0);
+			break;
+		case MM:
+			lex();
+			pushdup();
+			loadnos();
+			pushdup();
+			pushnum(1);
+			pushop('+');
+			store(0);
+			break;
+	};
+};
 
 void
 mul(void)
-{
-	register int t;
+{	register int t;
 
 	unary();
-	for (;;) {
-		switch (nextToken) {
-		case '*':
-		case '/':
-		case '%':
-			t = nextToken;
-			lex();
-			unary();
-			pushop(t);
-		default:
-			return;
-		}
-	}
-}
+	for (;;) 
+	{	switch (nextToken) 
+		{	case '*':
+			case '/':
+			case '%':
+				t = nextToken;
+				lex();
+				unary();
+				pushop(t);
+			default:
+				return;
+		};
+	};
+};
 
 void
 add(void)
-{
-	register int t;
+{	register int t;
 
 	mul();
-	for (;;) {
-		switch (nextToken) {
-		case '+':
-		case '-':
-			t = nextToken;
-			lex();
-			mul();
-			pushop(t);
-		default:
-			return;
-		}
-	}
-}
+	for (;;) 
+	{	switch (nextToken) 
+		{	case '+':
+			case '-':
+				t = nextToken;
+				lex();
+				mul();
+				pushop(t);
+			default:
+				return;
+		};
+	};
+};
 
 void
 slsr(void)
-{
-	register int t;
+{	register int t;
 
 	add();
-	for (;;) {
-		switch (nextToken) {
-		case SL:
-		case SR:
-			t = nextToken;
-			lex();
-			add();
-			pushop(t);
-		default:
-			return;
-		}
-	}
-}
+	for (;;) 
+	{	switch (nextToken) 
+		{	case SL:
+			case SR:
+				t = nextToken;
+				lex();
+				add();
+				pushop(t);
+			default:
+				return;
+		};
+	};
+};
 
 void
 leltgegt(void)
-{
-	register int t;
+{	register int t;
 
 	slsr();
-	for (;;) {
-		switch (nextToken) {
-		case LE:
-		case '<':
-		case GE:
-		case '>':
-			t = nextToken;
-			lex();
-			slsr();
-			pushop(t);
-		default:
-			return;
-		}
-	}
-}
+	for (;;) 
+	{	switch (nextToken) 
+		{	case LE:
+			case '<':
+			case GE:
+			case '>':
+				t = nextToken;
+				lex();
+				slsr();
+				pushop(t);
+			default:
+				return;
+		};
+	};
+};
 
 void
 eqne(void)
-{
-	register int t;
+{	register int t;
 
 	leltgegt();
-	for (;;) {
-		switch (nextToken) {
-		case EQ:
-		case NE:
-			t = nextToken;
-			lex();
-			leltgegt();
-			pushop(t);
-		default:
-			return;
-		}
-	}
-}
+	for (;;) 
+	{	switch (nextToken) 
+		{	case EQ:
+			case NE:
+				t = nextToken;
+				lex();
+				leltgegt();
+				pushop(t);
+			default:
+				return;
+		};
+	};
+};
 
 void
 and(void)
-{
-	eqne();
-	while (match('&')) {
-		eqne();
+{	eqne();
+	while (match('&')) 
+	{	eqne();
 		pushop('&');
-	}
-}
+	};
+};
 
 void
 xor(void)
-{
-	and();
-	while (match('^')) {
-		and();
+{	and();
+	while (match('^')) 
+	{	and();
 		pushop('^');
-	}
-}
+	};
+};
 
 void
 or(void)
-{
-	xor();
-	while (match('|')) {
-		xor();
+{	xor();
+	while (match('|')) 
+	{	xor();
 		pushop('|');
-	}
-}
+	};
+};
 
 void
 andand(void)
-{
-	register int lab;
+{	register int lab;
 
 	or();
-	if (match(AA)) {
-		lab = labelNum;
+	if (match(AA)) 
+	{	lab = labelNum;
 		labelNum += 3;
 
-		do {
-			jumpf(lab);
+		do 
+		{	jumpf(lab);
 			++labelNum;
 			or();
 		} while (match(AA));
@@ -787,21 +737,20 @@ andand(void)
 		label(lab+1);
 		pushnum(1);
 		label(lab+2);
-	}
-}
+	};
+};
 
 void
 oror(void)
-{
-	register int lab;
+{	register int lab;
 
 	andand();
-	if (match(OO)) {
-		lab = labelNum;
+	if (match(OO)) 
+	{	lab = labelNum;
 		labelNum += 3;
 
-		do {
-			jumpt(lab);
+		do 
+		{	jumpt(lab);
 			++labelNum;
 			andand();
 		} while (match(OO));
@@ -814,17 +763,16 @@ oror(void)
 		label(lab+1);
 		pushnum(0);
 		label(lab+2);
-	}
-}
+	};
+};
 
 void
 cond(void)
-{
-	register int lab;
+{	register int lab;
 
 	oror();
-	if (match('?')) {
-		lab = labelNum;
+	if (match('?')) 
+	{	lab = labelNum;
 		labelNum += 2;
 
 		jumpf(lab);
@@ -835,111 +783,108 @@ cond(void)
 		label(lab);
 		cond();
 		label(lab+1);
-	}
-}
+	};
+};
 
 void
 assign(void)
-{
-	register int t;
+{	register int t;
 
 	cond();
-	switch (nextToken) {
-	case '=':
-		lex();
-		assign();
-		store(1);
-		break;
-	case OE:
-		lex();
-		pushdup();
-		assign();
-		pushop('|');
-		store(1);
-		break;
-	case XE:
-		lex();
-		pushdup();
-		assign();
-		pushop('^');
-		store(1);
-		break;
-	case AE:
-		lex();
-		pushdup();
-		assign();
-		pushop('&');
-		store(1);
-		break;
-	case PE:
-		lex();
-		pushdup();
-		assign();
-		pushop('+');
-		store(1);
-		break;
-	case ME:
-		lex();
-		pushdup();
-		assign();
-		pushop('-');
-		store(1);
-		break;
-	case TE:
-		lex();
-		pushdup();
-		assign();
-		pushop('*');
-		store(1);
-		break;
-	case DE:
-		lex();
-		pushdup();
-		assign();
-		pushop('/');
-		store(1);
-		break;
-	case RE:
-		lex();
-		pushdup();
-		assign();
-		pushop('%');
-		store(1);
-		break;
-	}
-}
+	switch (nextToken) 
+	{	case '=':
+			lex();
+			assign();
+			store(1);
+			break;
+		case OE:
+			lex();
+			pushdup();
+			assign();
+			pushop('|');
+			store(1);
+			break;
+		case XE:
+			lex();
+			pushdup();
+			assign();
+			pushop('^');
+			store(1);
+			break;
+		case AE:
+			lex();
+			pushdup();
+			assign();
+			pushop('&');
+			store(1);
+			break;
+		case PE:
+			lex();
+			pushdup();
+			assign();
+			pushop('+');
+			store(1);
+			break;
+		case ME:
+			lex();
+			pushdup();
+			assign();
+			pushop('-');
+			store(1);
+			break;
+		case TE:
+			lex();
+			pushdup();
+			assign();
+			pushop('*');
+			store(1);
+			break;
+		case DE:
+			lex();
+			pushdup();
+			assign();
+			pushop('/');
+			store(1);
+			break;
+		case RE:
+			lex();
+			pushdup();
+			assign();
+			pushop('%');
+			store(1);
+			break;
+	};
+};
 
 void
 expr(void)
-{
-	assign();
-	while (match(',')) {
-		decSp();
+{	assign();
+	while (match(',')) 
+	{	decSp();
 		assign();
-	}
-}
+	};
+};
 
 int
 newsym(void)
-{
-	/* Create a new symbol table entry */
+{	/* Create a new symbol table entry */
 	register int mysym;
 
-	switch (nextToken) {
-	case WORD:
-		mysym = lexsym;
-		break;
-	case VAR:
-	case FUNC:
-		if (scope == symtab[lexsym].scope) {
-			warn("redefinition of identifier");
-		}
-		symtab[mysym = (symsp++)].ipos = symtab[lexsym].ipos;
-		break;
-	default:
-		error("ill-formed declaration of %s",
-		      nameString(symtab[mysym].ipos));
-	}
+	switch (nextToken) 
+	{	case WORD:
+			mysym = lexsym;
+			break;
+		case VAR:
+		case FUNC:
+			if (scope == symtab[lexsym].scope) 
+			{	warn("redefinition of identifier");
+			};
+			symtab[mysym = (symsp++)].ipos = symtab[lexsym].ipos;
+			break;
+		default:
+			error("ill-formed declaration of %s",
+				  nameString(symtab[mysym].ipos));
+	};
 	lex();
 	symtab[mysym].scope = scope;
 	return(mysym);
@@ -947,222 +892,221 @@ newsym(void)
 
 void
 stat(void)
-{
-	register int scopesymsp, scopeoffset;
+{	register int scopesymsp, scopeoffset;
 	register int lab;
 	register int mysym;
 
-	switch (nextToken) {
-	case '{':
-		lex();
-		scopesymsp = symsp;
-		scopeoffset = fpoffset;
-
-		decl();
-		while (!match('}')) {
-			stat();
-		}
-
-		symsp = scopesymsp;
-		fpoffset = scopeoffset;
-		break;
-	case IF:
-		lex();
-		expr();
-		lab = labelNum;
-		labelNum += 2;
-		jumpf(lab);
-		stat();
-		if (nextToken == ELSE) {
+	switch (nextToken) 
+	{	case '{':
 			lex();
-			jump(lab+1);
-			label(lab);
-			stat();
-			label(lab+1);
-		} else {
-			label(lab);
-		}
-		break;
-	case FOR:
-		lex();
-		assume('(');
-		lab = labelNum;
-		labelNum += 4;
-		if (!match(';')) {
+			scopesymsp = symsp;
+			scopeoffset = fpoffset;
+
+			decl();
+			while (!match('}')) {
+				stat();
+			}
+
+			symsp = scopesymsp;
+			fpoffset = scopeoffset;
+			break;
+		case IF:
+			lex();
 			expr();
-			decSp();
-			match(';');
-		}
-		label(lab);
-		if (!match(';')) {
+			lab = labelNum;
+			labelNum += 2;
+			jumpf(lab);
+			stat();
+			if (nextToken == ELSE) 
+			{	lex();
+				jump(lab+1);
+				label(lab);
+				stat();
+				label(lab+1);
+			} else 
+			{	label(lab);
+			};
+			break;
+		case FOR:
+			lex();
+			assume('(');
+			lab = labelNum;
+			labelNum += 4;
+			if (!match(';')) 
+			{	expr();
+				decSp();
+				match(';');
+			};
+			label(lab);
+			if (!match(';')) 
+			{	expr();
+				jumpf(lab+1);
+				match(';');
+			};
+			jump(lab+2);
+			label(lab+3);
+			if (!match(')')) 
+			{	expr();
+				decSp();
+				match(')');
+			};
+			jump(lab);
+			label(lab+2);
+			stat();
+			jump(lab+3);
+			label(lab+1);
+			break;
+		case WHILE:
+			lex();
+			lab = labelNum;
+			labelNum += 2;
+			label(lab);
 			expr();
 			jumpf(lab+1);
+			stat();
+			jump(lab);
+			label(lab+1);
+			break;
+		case DO:
+			lex();
+			lab = (labelNum++);
+			label(lab);
+			stat();
+			if (match(WHILE)) 
+			{	error("do missing while");
+			};
+			expr();
+			assume(';');
+			jumpt(lab);
+			break;
+		case RETURN:
+			lex();
+			if (nextToken != ';') 
+			{	expr();
+				pushop(RETVAL);
+			}
 			match(';');
-		}
-		jump(lab+2);
-		label(lab+3);
-		if (!match(')')) {
+			break;
+		case GOTO:
+			lex();
+			ghoto(nameString(symtab[newsym()].ipos));
+			--symsp;
+			break;
+		case TARGET:
+			target(nameString(symtab[symsp-1].ipos));
+			--symsp;
+			lex();
+			assume(':');
+			break;
+		case ';':
+			lex();
+			break;
+		default:
 			expr();
+			assume(';');
 			decSp();
-			match(')');
-		}
-		jump(lab);
-		label(lab+2);
-		stat();
-		jump(lab+3);
-		label(lab+1);
-		break;
-	case WHILE:
-		lex();
-		lab = labelNum;
-		labelNum += 2;
-		label(lab);
-		expr();
-		jumpf(lab+1);
-		stat();
-		jump(lab);
-		label(lab+1);
-		break;
-	case DO:
-		lex();
-		lab = (labelNum++);
-		label(lab);
-		stat();
-		if (match(WHILE)) {
-			error("do missing while");
-		}
-		expr();
-		assume(';');
-		jumpt(lab);
-		break;
-	case RETURN:
-		lex();
-		if (nextToken != ';') {
-			expr();
-			pushop(RETVAL);
-		}
-		match(';');
-		break;
-	case GOTO:
-		lex();
-		ghoto(nameString(symtab[newsym()].ipos));
-		--symsp;
-		break;
-	case TARGET:
-		target(nameString(symtab[symsp-1].ipos));
-		--symsp;
-		lex();
-		assume(':');
-		break;
-	case ';':
-		lex();
-		break;
-	default:
-		expr();
-		assume(';');
-		decSp();
-		break;
-	}
-}
+			break;
+	};
+};
 
 int
 ctype(void)
-{
-	switch (nextToken) {
-	case INT:	lex(); return(4);
-	case SHORT:	lex(); return(2);
-	case CHAR:	lex(); return(1);
-	case WORD:	if (scope == 0) {
-				warn("missing int keyword assumed");
+{	switch (nextToken) 
+	{	case INT:	lex(); return(4);
+		case SHORT:	lex(); return(2);
+		case CHAR:	lex(); return(1);
+		case WORD:	
+			if (scope == 0) 
+			{	warn("missing int keyword assumed");
 				return(4);
-			}
-	}
+			};
+	};
 	return(0);
-}
+};
 
 void
 decl(void)
-{
-	register int scopeoffset;
+{	register int scopeoffset;
 	register int mysym, argsym;
 	register int size, args;
 
-	while ((size = ctype()) != 0) {
+	while ((size = ctype()) != 0) 
+	{
 moredecls:
 		mysym = newsym();
 		symtab[mysym].size = size;
 
-		switch (nextToken) {
-		case '[':
-			lex();
-			symtab[mysym].type = VAR;
-			if (nextToken != NUM) {
-				error("non-constant dim for %s",
-				      nameString(symtab[mysym].ipos));
-			}
-			symtab[mysym].dim = lexnum;
-			def(mysym);
-			lex();
-			assume(']');
-			if (match(',')) goto moredecls;
-			assume(';');
-			break;
-		case ';':
-			symtab[mysym].dim = 1;
-			def(mysym);
-			lex();
-			break;
-		case ',':
-			symtab[mysym].dim = 1;
-			def(mysym);
-			lex();
-			goto moredecls;
-		case '(':
-			if (scope != 0) {
-				error("nested definition of function %s",
-				      nameString(symtab[mysym].ipos));
-			}
-			lex();
-
-			funcbegin(mysym);
-
-			args = 0;
-			while ((size = ctype()) != 0) {
-				argsym = newsym();
-				symtab[argsym].type = VAR;
-				symtab[argsym].size = 4;
-				symtab[argsym].dim = 1;
-				def(argsym);
-
-				/* Copy arg from register to local */
-				pushnum(symtab[argsym].base);
-				pushop(AFP);
-				lval(4);
-				pusharg(args++);
-				store(0);
-
-				if (match('[')) {
-					error("array arguments currently not supported");
+		switch (nextToken) 
+		{
+			case '[':
+				lex();
+				symtab[mysym].type = VAR;
+				if (nextToken != NUM) {
+					error("non-constant dim for %s",
+						  nameString(symtab[mysym].ipos));
 				}
-				match(',');
-			}
-			if (!match(')')) {
-				warn("missing ) in function argument declaration");
-			}
-			stat();
-			funcend(mysym);
+				symtab[mysym].dim = lexnum;
+				def(mysym);
+				lex();
+				assume(']');
+				if (match(',')) goto moredecls;
+				assume(';');
+				break;
+			case ';':
+				symtab[mysym].dim = 1;
+				def(mysym);
+				lex();
+				break;
+			case ',':
+				symtab[mysym].dim = 1;
+				def(mysym);
+				lex();
+				goto moredecls;
+			case '(':
+				if (scope != 0) 
+				{	error("nested definition of function %s",
+						  nameString(symtab[mysym].ipos));
+				}
+				lex();
 
-			break;
-		default:
-			error("declaration missing ; or argument list");
-		}
-	}
-}
+				funcbegin(mysym);
+
+				args = 0;
+				while ((size = ctype()) != 0) 
+				{	argsym = newsym();
+					symtab[argsym].type = VAR;
+					symtab[argsym].size = 4;
+					symtab[argsym].dim = 1;
+					def(argsym);
+
+					/* Copy arg from register to local */
+					pushnum(symtab[argsym].base);
+					pushop(AFP);
+					lval(4);
+					pusharg(args++);
+					store(0);
+
+					if (match('[')) 
+					{	error("array arguments currently not supported");
+					};
+					match(',');
+				};
+				if (!match(')')) 
+				{	warn("missing ) in function argument declaration");
+				};
+				stat();
+				funcend(mysym);
+
+				break;
+			default:
+				error("declaration missing ; or argument list");
+		};
+	};
+};
 
 int
 main(int argc, char **argv)
-{
-	int c;
+{	int c;
 	FILE * pFile;
 	long lSize;
 	char * buffer;

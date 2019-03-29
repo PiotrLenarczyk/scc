@@ -12,3 +12,14 @@
 		"s0",	"s1",	"s2",	"s3",	"s4",	"s5",	"s6",	"s7",
 		"t8",	"t9",	"k0",	"k1",	"gp",	"sp",	"fp",	"ra"
 	};
+
+	void
+	printReg(register int r)
+	{	register char *s = regname[r];
+
+		printChar('$');
+		while (*s) 
+		{	printChar(*s);
+			++s;
+		};
+	};

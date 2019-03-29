@@ -1,38 +1,29 @@
 	.text
 	.globl	main
 	.globl	_exit
-	.globl	_print_int
-	.globl	_print_string
+ENTRY:
 main:
-	lui	$gp,4096
-	jal	_main
-_exit:
-	ori	$v0,$0,10
-	syscall
-_print_int:
-	ori	$v0,$0,1
-	syscall
-	jr	$ra
-_print_string:
-	ori	$v0,$0,4
-	syscall
-	jr	$ra
+	movs	pc,4096
+	bl	_main
 	.text
 	.globl	_main
 _0:
-	addi	$t0,$fp,-8
-	ori	$t1,$0,5
-	sw	$t1,0($t0)
-	or	$t0,$t1,$0
+	adds	r3,r7,-8
+	ldrW	r4,0,5
+	orrs	r4,0,5
+	sw	r4,0(r3)
+	orrs	r3,r4,0
+	adds	r3,0,-1
+	orrs	r1,r3,0
 _1:
-	lw	$ra,-4($fp)
-	or	$sp,$fp,$0
-	lw	$fp,0($sp)
-	addi	$sp,$sp,4
-	jr	$ra
+	lw	r0,-4(r7)
+	orrs	sp,r7,0
+	lw	r7,0(sp)
+	adds	sp,sp,4
+	j	r0
 _main:
-	addi	$sp,$sp,-16
-	sw	$fp,12($sp)
-	addi	$fp,$sp,12
-	sw	$ra,-4($fp)
+	adds	sp,sp,-16
+	sw	r7,12(sp)
+	adds	r7,sp,12
+	sw	r0,-4(r7)
 	j	_0

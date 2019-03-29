@@ -1,0 +1,811 @@
+###############################################################################
+#                                                                             #
+#     IAR Assembler V8.32.3.193/W32 for ARM 29/Mar/2019  14:45:37             #
+#     Copyright 1999-2019 IAR Systems AB.                                     #
+#                                                                             #
+#           Source file   =  C:\Users\X98\Desktop\IAR_ASM_ARM_CM\asmCut.s     #
+#           List file     =  C:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\List\asmCut.lst#
+#           Object file   =  C:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\Obj\asmCut.o#
+#           Command line  =  -f C:\Users\X98\AppData\Local\Temp\EWBAC.tmp     #
+#                            (C:\Users\X98\Desktop\IAR_ASM_ARM_CM\asmCut.s    #
+#                            -OC:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\Obj  #
+#                            -s+ -M<> -w+ -r                                  #
+#                            -LC:\Users\X98\Desktop\IAR_ASM_ARM_CM\Debug\List #
+#                            -cAO -i -B -t2 -xDI2 --cpu Cortex-M0+ --fpu      #
+#                            None)                                            #
+#                                                                             #
+###############################################################################
+
+                                  str r0, [r3+#4]
+
+                                -------------^
+
+                                "C:\Users\X98\Desktop\IAR_ASM_ARM_CM\21_tmpCom
+                       piler.s",10  Error[0]: Invalid syntax
+
+
+
+    1                                   PUBLIC  __iar_program_start
+
+    2                                   PUBLIC  __vector_table
+
+    3                             
+
+    4                                   SECTION .text:CODE:REORDER(4) 
+                                 
+
+    5                                   REQUIRE __vector_table;;; Keep vector
+                                 table even if it's not referenced
+
+    6                                 
+
+    7                                   
+
+    8                                   THUMB;code16;THUMB
+
+    9                           __iar_program_start
+
+   10                           //==========================================
+
+   11                           //==========================================
+
+   12                           //#include "000_empty.s"
+
+   13                           //#include "00_emptyTemplate.s"
+
+   14                           //#include "00_REG.s"
+
+   15                           //#include "01_B_branch.s"
+
+   16                           //#include "02_BL_branchLink.s"
+
+   17                           //#include "03_immediate.s"
+
+   18                           //#include "04_SWI_debugReturn.s"
+
+   19                           //#include "05_ARM_THUMB_mixed.s"
+
+   20                           //#include "06_CMP_conditional_execution.s"
+
+   21                           //#include "07_gcd()_greatest_common_division.
+                                s"
+
+   22                           //#include "08_gcd()_optimized.s"
+
+   23                           //#include "09_LTORG_litPool.s"
+
+   24                           //#include "10_ADR_ADRL_addressGen_addrLoad.s"
+
+   25                           //#include "11_EQU_define.s"
+
+   26                           //#include "12_DCB_strings.s"
+
+   27                           //#include "13_ldrW.s"
+
+   28                           //#include "14_defines.s"
+
+   29                           //#include "15_SECTION.s"
+
+   30                           //#include "16_STM.s"
+
+   31                           //#include "17_r8-r12_highRegisters.s"
+
+   32                           //#include "18_macro.s"
+
+   33                           //#include "19_multiplication.s"
+
+   34                           //#include "20_div.s"
+
+   35                           #include "21_tmpCompiler.s"
+
+    1                           thumb
+
+    2                           memAddr equ 0x20000100
+
+    3                           main:
+
+    4    00000000 1120            movs r0, #0x11
+
+    5    00000002 0121            movs r1, #0x1
+
+    6    00000004 481C            adds  r0, r1, #0x1
+
+    7                             
+
+    8    00000006 014B            ldr r3, =memAddr
+
+    9    00000008 1860            str r0, [r3]
+
+                                  str r0, [r3+#4]
+
+                                -------------^
+
+                                "C:\Users\X98\Desktop\IAR_ASM_ARM_CM\21_tmpCom
+                       piler.s",10  Error[0]: Invalid syntax
+
+   36                           //#include ""
+
+   37                           //#include ""
+
+   38                           //#include ""
+
+   39                           
+
+   40                           
+
+   41                           //==========================================
+
+   42    0000000A FEE7          loopEnd: B loopEnd
+
+   43                           //==========================================
+
+   44                                   ;; Forward declaration of sections.
+
+   44.1                                  TABLE
+
+   44.2  0000000C 00010020              Reference on line 8
+
+   45                                   SECTION CSTACK:DATA:NOROOT(1)
+
+   46                                   SECTION .intvec:CODE:NOROOT(2)
+
+   47                                   PUBLIC NMI_Handler
+
+   48                                   PUBLIC HardFault_Handler       
+                                 
+
+   49                                   DATA
+
+   50                           __vector_table
+
+   51    00000000 ........              DCD     sfe(CSTACK)
+
+   52    00000004 ........              DCD     __iar_program_start
+
+   53    00000008 ........              DCD     NMI_Handler
+
+   54    0000000C ........              DCD     HardFault_Handler
+
+   55                           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                ;;;;;;
+
+   56                               SECTION .text:CODE:REORDER:NOROOT(1)
+
+   57                                   THUMB
+
+   58                           NMI_Handler:
+
+   59                           HardFault_Handler:
+
+   60    00000000 FEE7              B HardFault_Handler
+
+   61                                   END
+
+
+
+
+
+\n                   DELIMITER 
+
+                     DELIMITER 
+
+!                    OPERATOR 
+
+!=                   OPERATOR 
+
+%                    OPERATOR 
+
+&                    OPERATOR 
+
+&&                   OPERATOR 
+
+(                    OPERATOR 
+
+(                    DELIMITER 
+
+)                    OPERATOR 
+
+)                    DELIMITER 
+
+*                    OPERATOR 
+
++                    OPERATOR 
+
+,                    DELIMITER 
+
+-                    OPERATOR 
+
+.                    Target symbol: 24 
+
+/                    OPERATOR 
+
+/                    DELIMITER 
+
+:                    Target symbol: 22 
+
+:                    DELIMITER 
+
+;                    Target symbol: 23 
+
+<                    OPERATOR 
+
+<<                   OPERATOR 
+
+<=                   OPERATOR 
+
+<>                   OPERATOR 
+
+=                    OPERATOR 
+
+=                    DIRECTIVE 
+
+==                   OPERATOR 
+
+>                    OPERATOR 
+
+>=                   OPERATOR 
+
+>>                   OPERATOR 
+
+@                    DELIMITER 
+
+AAPCS                DIRECTIVE 
+
+ALIAS                DIRECTIVE 
+
+ALIGN                DIRECTIVE 
+
+ALIGNRAM             DIRECTIVE 
+
+ALIGNROM             DIRECTIVE 
+
+ANOTE                DIRECTIVE 
+
+ARGFRAME             DIRECTIVE 
+
+ARM                  DIRECTIVE 
+
+ASEGN                DIRECTIVE 
+
+BIT                  SEGMENT TYPE 
+
+BYTE1                OPERATOR 
+
+BYTE2                OPERATOR 
+
+BYTE3                OPERATOR 
+
+BYTE4                OPERATOR 
+
+C0                   REGISTER 
+
+C1                   REGISTER 
+
+C10                  REGISTER 
+
+C11                  REGISTER 
+
+C12                  REGISTER 
+
+C13                  REGISTER 
+
+C14                  REGISTER 
+
+C15                  REGISTER 
+
+C2                   REGISTER 
+
+C3                   REGISTER 
+
+C4                   REGISTER 
+
+C5                   REGISTER 
+
+C6                   REGISTER 
+
+C7                   REGISTER 
+
+C8                   REGISTER 
+
+C9                   REGISTER 
+
+CALL_GRAPH_ROOT      DIRECTIVE 
+
+CASEOFF              DIRECTIVE 
+
+CASEON               DIRECTIVE 
+
+CBREL                OPERATOR 
+
+CBREL_NEAR           OPERATOR 
+
+CFI                  DIRECTIVE 
+
+CODE                 SEGMENT TYPE 
+
+CODE                 DIRECTIVE 
+
+CODE16               DIRECTIVE 
+
+CODE32               DIRECTIVE 
+
+COL                  DIRECTIVE 
+
+CONST                SEGMENT TYPE 
+
+DATA                 SEGMENT TYPE 
+
+DATA                 DIRECTIVE 
+
+DATA16               DIRECTIVE 
+
+DATA32               DIRECTIVE 
+
+DATA64               DIRECTIVE 
+
+DATA8                DIRECTIVE 
+
+DATE                 OPERATOR 
+
+DC16                 DIRECTIVE 
+
+DC24                 DIRECTIVE 
+
+DC32                 DIRECTIVE 
+
+DC64                 DIRECTIVE 
+
+DC8                  DIRECTIVE 
+
+DCB                  DIRECTIVE 
+
+DCD                  DIRECTIVE 
+
+DCREL32              DIRECTIVE 
+
+DCW                  DIRECTIVE 
+
+DEFINE               DIRECTIVE 
+
+DF32                 DIRECTIVE 
+
+DF64                 DIRECTIVE 
+
+DS16                 DIRECTIVE 
+
+DS24                 DIRECTIVE 
+
+DS32                 DIRECTIVE 
+
+DS64                 DIRECTIVE 
+
+DS8                  DIRECTIVE 
+
+ELSE                 DIRECTIVE 
+
+ELSEIF               DIRECTIVE 
+
+END                  DIRECTIVE 
+
+ENDIF                DIRECTIVE 
+
+ENDM                 DIRECTIVE 
+
+ENDMOD               DIRECTIVE 
+
+ENDR                 DIRECTIVE 
+
+EQU                  DIRECTIVE 
+
+EVEN                 DIRECTIVE 
+
+EXCEPTION_CODE       DIRECTIVE 
+
+EXITM                DIRECTIVE 
+
+EXPORT               DIRECTIVE 
+
+EXTERN               DIRECTIVE 
+
+EXTWEAK              DIRECTIVE 
+
+FAR                  SEGMENT TYPE 
+
+FARCODE              SEGMENT TYPE 
+
+FARCONST             SEGMENT TYPE 
+
+FARDATA              SEGMENT TYPE 
+
+FUNCALL              DIRECTIVE 
+
+FUNCTION             DIRECTIVE 
+
+HIGH                 OPERATOR 
+
+HUGE                 SEGMENT TYPE 
+
+HUGECODE             SEGMENT TYPE 
+
+HUGECONST            SEGMENT TYPE 
+
+HUGEDATA             SEGMENT TYPE 
+
+HWRD                 OPERATOR 
+
+IDATA                SEGMENT TYPE 
+
+IF                   DIRECTIVE 
+
+IMPORT               DIRECTIVE 
+
+INCLUDE              DIRECTIVE 
+
+LIBRARY              DIRECTIVE 
+
+LOCAL                DIRECTIVE 
+
+LOCFRAME             DIRECTIVE 
+
+LOW                  OPERATOR 
+
+LR                   REGISTER 
+
+LSTCND               DIRECTIVE 
+
+LSTCOD               DIRECTIVE 
+
+LSTEXP               DIRECTIVE 
+
+LSTMAC               DIRECTIVE 
+
+LSTOUT               DIRECTIVE 
+
+LSTPAG               DIRECTIVE 
+
+LSTREP               DIRECTIVE 
+
+LSTXRF               DIRECTIVE 
+
+LTORG                DIRECTIVE 
+
+LWRD                 OPERATOR 
+
+MACRO                DIRECTIVE 
+
+MODULE               DIRECTIVE 
+
+NAME                 DIRECTIVE 
+
+NEAR                 SEGMENT TYPE 
+
+NEARCODE             SEGMENT TYPE 
+
+NEARCONST            SEGMENT TYPE 
+
+NEARDATA             SEGMENT TYPE 
+
+NOALLOC              SEGMENT TYPE 
+
+NOCALL               DIRECTIVE 
+
+NOROOT               SEGMENT TYPE 
+
+NPAGE                SEGMENT TYPE 
+
+ODD                  DIRECTIVE 
+
+P0                   REGISTER 
+
+P1                   REGISTER 
+
+P10                  REGISTER 
+
+P11                  REGISTER 
+
+P12                  REGISTER 
+
+P13                  REGISTER 
+
+P14                  REGISTER 
+
+P15                  REGISTER 
+
+P2                   REGISTER 
+
+P3                   REGISTER 
+
+P4                   REGISTER 
+
+P5                   REGISTER 
+
+P6                   REGISTER 
+
+P7                   REGISTER 
+
+P8                   REGISTER 
+
+P9                   REGISTER 
+
+PAGE                 DIRECTIVE 
+
+PAGSIZ               DIRECTIVE 
+
+PC                   REGISTER 
+
+PRESERVE8            DIRECTIVE 
+
+PROGRAM              DIRECTIVE 
+
+PUBLIC               DIRECTIVE 
+
+PUBWEAK              DIRECTIVE 
+
+R0                   REGISTER 
+
+R1                   REGISTER 
+
+R10                  REGISTER 
+
+R11                  REGISTER 
+
+R12                  REGISTER 
+
+R13                  REGISTER 
+
+R14                  REGISTER 
+
+R15                  REGISTER 
+
+R2                   REGISTER 
+
+R3                   REGISTER 
+
+R4                   REGISTER 
+
+R5                   REGISTER 
+
+R6                   REGISTER 
+
+R7                   REGISTER 
+
+R8                   REGISTER 
+
+R9                   REGISTER 
+
+RADIX                DIRECTIVE 
+
+REGISTER             SEGMENT TYPE 
+
+RELOC_ARM_PREL31     OPERATOR 
+
+RELOC_ARM_TARGET1    OPERATOR 
+
+RELOC_ARM_TARGET2    OPERATOR 
+
+RELOC_LOCAL          OPERATOR 
+
+REORDER              SEGMENT TYPE 
+
+REPT                 DIRECTIVE 
+
+REPTC                DIRECTIVE 
+
+REPTI                DIRECTIVE 
+
+REQUIRE              DIRECTIVE 
+
+REQUIRE8             DIRECTIVE 
+
+ROOT                 SEGMENT TYPE 
+
+RSEG                 DIRECTIVE 
+
+RTMODEL              DIRECTIVE 
+
+SBREL                OPERATOR 
+
+SBREL_NEAR           OPERATOR 
+
+SECTION              DIRECTIVE 
+
+SECTION_GROUP        DIRECTIVE 
+
+SECTION_LINK         DIRECTIVE 
+
+SECTION_TYPE         DIRECTIVE 
+
+SET                  DIRECTIVE 
+
+SETA                 DIRECTIVE 
+
+SFB                  OPERATOR 
+
+SFE                  OPERATOR 
+
+SFS                  OPERATOR 
+
+SIZE                 DIRECTIVE 
+
+SIZEOF               OPERATOR 
+
+SORT                 SEGMENT TYPE 
+
+SP                   REGISTER 
+
+THUMB                DIRECTIVE 
+
+THUMBX               DIRECTIVE 
+
+TLS                  SEGMENT TYPE 
+
+TLS                  OPERATOR 
+
+UGT                  OPERATOR 
+
+ULT                  OPERATOR 
+
+UNTYPED              SEGMENT TYPE 
+
+VAR                  DIRECTIVE 
+
+XDATA                SEGMENT TYPE 
+
+XOR                  OPERATOR 
+
+ZPAGE                SEGMENT TYPE 
+
+[                    DELIMITER 
+
+]                    DELIMITER 
+
+^                    OPERATOR 
+
+^                    DELIMITER 
+
+__ARM4TM__           #define, value: 4, line:         0  
+
+__ARM5TM__           #define, value: 5, line:         0  
+
+__ARM5T__            #define, value: 5, line:         0  
+
+__ARM5__             #define, value: 5, line:         0  
+
+__ARM6M__            #define, value: 11, line:         0  
+
+__ARM6SM__           #define, value: 12, line:         0  
+
+__ARM6__             #define, value: 6, line:         0  
+
+__ARM_32BIT_STATE    #define, value: 1, line:         0  
+
+__ARM_ARCH           #define, value: 6, line:         0  
+
+__ARM_ARCH_ISA_THUMB #define, value: 1, line:         0  
+
+__ARM_ARCH_PROFILE   #define, value: 'M', line:         0  
+
+__ARM_PROFILE_M__    #define, value: 1, line:         0  
+
+__BUILD_NUMBER__     #define,            line:         0  
+
+__CORE__             #define, value: __ARM6M__, line:         0  
+
+__DATE__             #define,            line:         0  
+
+__FILE__             #define,            line:         0  
+
+__IAR_SYSTEMS_ASM    #define,            line:         0  
+
+__IAR_SYSTEMS_ASM__  #define,            line:         0  
+
+__IASMARM__          #define, value: 1, line:         0  
+
+__LINE__             #define,            line:         0  
+
+__LITTLE_ENDIAN__    #define, value: 1, line:         0  
+
+__SUBVERSION__       #define,            line:         0  
+
+__TID__              #define,            line:         0  
+
+__TIME__             #define,            line:         0  
+
+__VER__              #define,            line:         0  
+
+define               PREPROCESSOR DIRECTIVE 
+
+defined              Target symbol: 0 
+
+elif                 PREPROCESSOR DIRECTIVE 
+
+else                 PREPROCESSOR DIRECTIVE 
+
+endif                PREPROCESSOR DIRECTIVE 
+
+error                PREPROCESSOR DIRECTIVE 
+
+if                   PREPROCESSOR DIRECTIVE 
+
+ifdef                PREPROCESSOR DIRECTIVE 
+
+ifndef               PREPROCESSOR DIRECTIVE 
+
+include              PREPROCESSOR DIRECTIVE 
+
+line                 PREPROCESSOR DIRECTIVE 
+
+message              PREPROCESSOR DIRECTIVE 
+
+pragma               PREPROCESSOR DIRECTIVE 
+
+undef                PREPROCESSOR DIRECTIVE 
+
+{                    DELIMITER 
+
+|                    OPERATOR 
+
+||                   OPERATOR 
+
+}                    DELIMITER 
+
+~                    OPERATOR 
+
+EOF                  DELIMITER 
+
+
+
+Segment             Type 	Mode
+
+----------------------------------------
+
+.intvec             CODE  	REL 
+
+.text               CODE  	REL 
+
+CSTACK              DATA  	REL 
+
+__EXTERNS           CODE  	ABS Org:0 
+
+
+
+Label               Mode   Type                   Segment    Value/Offset
+
+------------------------------------------------------------------------------
+
+??DUMMY_SYMBOL_IN_BACKEND_PARSED_OPERANDS
+                    ABS    CONST UNTYP.           ASEG       1267 
+
+HardFault_Handler   REL    CONST PUB UNTYP.       .text      1 
+
+NMI_Handler         REL    CONST PUB UNTYP.       .text      1 
+
+TID                 ABS    CONST UNTYP.           ASEG       4F00 
+
+__iar_program_start REL    CONST PUB UNTYP.       .text      1 
+
+__lab0              REL    CONST UNTYP.           .text      C 
+
+__vector_table      REL    CONST PUB UNTYP.       .intvec    0 
+
+loopEnd             REL    CONST UNTYP.           .text      B 
+
+main                REL    CONST UNTYP.           .text      1 
+
+memAddr             ABS    CONST UNTYP.           .text      20000100 
+
+thumb               REL    CONST UNTYP.           .text      1 
+
+
+
+
+
+##############################
+#        Errors:   1         #
+#        Warnings: 0         #
+#         Bytes: 34          #
+##############################
+
+
+
+
