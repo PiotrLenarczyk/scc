@@ -1,7 +1,7 @@
 
-#define	TOS	( T0 + ( sp-1 ) )
-#define	NOS	( T0 + ( sp-2 ) )
-#define	TMP	( T0 + sp )
+#define	TOS	( T0 + ( sp-1 ) )	//Top of stack
+#define	NOS	( T0 + ( sp-2 ) )	//next on stack
+#define	TMP	( T0 + sp )			//temporary
 
 void 
 printImmedShifted( register int rTarget,
@@ -10,42 +10,88 @@ register int bitLeftShift)
 {	printSharp();
 	printStr( "((" );
 	printNumber( immed4B );
-	printStr( " >> " );
+	printStr( " >> " ); 
 	printNumber( bitLeftShift );
 	printStr( ") & 0xFF)" );
 };
 
-void arm_loadImmed( register int rTarget,
+void arm_loadImmed( register int rTarget, 
 register int immed )
-{	printTab();
+{	
+/*
+	printTab();printTab();printTab();
 	printOperand(  "movs"  );
 	print_rs( R6 );
-	printComma();
+	printComma();  
 	printImmedShifted( rTarget, immed, 0x0 ); 
 	printNewLine();
-	printTab();
+	printTab();printTab();printTab();
 	printOperand(  "adds"  );
 	print_rs( R6 );
 	printComma();
 	printImmedShifted( rTarget, immed, 0x8 ); 
 	printNewLine();
-	printTab();
+	printTab();printTab();printTab();
 	printOperand(  "adds"  );
 	print_rs( R6 );
 	printComma();
 	printImmedShifted( rTarget, immed, 0x10 ); 
-	printNewLine();
-	printTab();
+	printNewLine(); 
+	printTab();printTab();printTab();
 	printOperand(  "adds"  );
 	print_rs( R6 );
 	printComma();
 	printImmedShifted( rTarget, immed, 0x18 ); 
 	printNewLine();
-	printTab();
-	printOperand(  "mov"  );
+*/
+	printOperand(  "movs"  );
 	print_rt( rTarget );
 	printComma();
 	print_rt( R6 );
+	printStr(" ;#");
+	printNumber( immed );
+	printStr(";(#");
+	printNumber10( immed );
+	printChar(')');
+};
+
+void operandImmediate(register char* inOperand,
+register int rt,
+register int rs,
+register int immed)   
+{	if ( rs )
+	{	arm_loadImmed( rs, immed );
+		printNewLine();
+		printTab();
+		printStr( inOperand );
+		printTab();
+		print_rt( rt );
+		printComma();
+		print_rs( rs );
+		printNewLine();
+		return;
+	};
+	if (( rs == 0x0 ) && (immed > 0xFF))
+	{	rs = R6;
+		arm_loadImmed( rs, immed );
+		printNewLine();
+		printTab();
+		printStr( inOperand );
+		printTab();
+		print_rt( rt );
+		printComma();
+		print_rs( rs );
+		printNewLine();
+		return;
+	};
+	printNewLine();
+	printTab();
+	printStr( inOperand );
+	printTab();
+	print_rt( rt );
+	printComma();
+	printImmediate( immed );
+	printNewLine();
 };
 
 //void operandImmediate( "adds", "r0, "r1", "#-15" )
@@ -56,34 +102,23 @@ foo()
 	register int rs = 0x1;
 	register int immed = -15;
 	char inOperand[] = "adds";
-	arm_loadImmed( rTarget, immed );
-	
-	
-	
-	printNewLine();
-	printTab();
-	printStr( inOperand );
-	printTab();
-	print_rt( rs );
-	printComma();
-	printReg( rTarget );
-	printNewLine();
 };
 
-		//immediate value
-		void
-		arm_immed( register int rt,
-		register int rs,
-		register int immed ) 
-		{	print_rt( rt );
-			printComma();
-			if (rs)
-			{	print_rs( rs );
-				printComma();
-			};
-			printImmediate( immed );
-			printNewLine();
-		};
+
+		// //immediate value
+		// void
+		// arm_immed( register int rt,
+		// register int rs,
+		// register int immed ) 
+		// {	print_rt( rt );
+			// printComma();
+			// if (rs)
+			// {	print_rs( rs );
+				// printComma();
+			// };
+			// printImmediate( immed );
+			// printNewLine();
+		// };
 
 //address offset
 void
@@ -131,11 +166,7 @@ register int rs )
 		void
 		arm_movs( register int rt,
 		register int immed )
-		{	printOperand(  "movs"  );
-			print_rs( rt );
-			printComma();
-			printImmediate( immed );
-			printNewLine();
+		{	operandImmediate( "movs", rt, 0, immed );
 		};
 
 //immediate OR
@@ -143,10 +174,7 @@ void
 arm_ori( register int rt,
 register int rs,
 register int immed )
-{	printOperand(  "ldrW"  );
-	arm_immed( rt, rs, immed );
-	printOperand(  "orrs"  );
-	arm_immed( rt, rs, immed );
+{	operandImmediate( "orrs", rt, rs, immed );
 };
 
 		//immediate addtion
@@ -154,8 +182,7 @@ register int immed )
 		arm_adds( register int rt,
 		register int rs,
 		register int immed )
-		{	printOperand(  "adds"  );
-			arm_immed( rt, rs, immed );
+		{	operandImmediate( "adds", rt, rs, immed );
 		};
 
 //immediate XOR
@@ -163,8 +190,7 @@ void
 arm_xori( register int rt,
 register int rs,
 register int immed )
-{	printOperand(  "xori"  );
-	arm_immed( rt, rs, immed );
+{	operandImmediate( "eors", rt, rs, immed );
 };
 
 		//branch on equal
@@ -255,7 +281,7 @@ register int rt )
 	arm_3reg( rd, rs, rt );
 };
 
-//set value if one reg is less than other reg
+//set on less than; if(rs<rt)
 void
 arm_sltu( register int rd,
 register int rs,
@@ -264,7 +290,7 @@ register int rt )
 	arm_3reg( rd, rs, rt );
 };
 
-//shift left logical value
+//shift left logical variable
 void
 arm_sllv( register int rd,
 register int rs,
@@ -274,7 +300,7 @@ register int rt )
 	arm_3reg( rd, rs, rt );
 }
 
-//shift right arithmetic
+//shift right arithmetic variable
 void
 arm_srav( register int rd,
 register int rs,
@@ -411,7 +437,7 @@ arm_globl_( register char *s )
 	printNewLine();
 };
 
-//label:
+//label: print label procedure body
 void
 arm_label( register char *s )
 {	while ( *s ) 
@@ -421,7 +447,7 @@ arm_label( register char *s )
 	printStr(  ":\n"  );
 }
 
-//_numLabel:
+//_numLabel: print label name=number
 void
 arm_label_( register int n )
 {	printChar( '_' );
@@ -429,7 +455,7 @@ arm_label_( register int n )
 	printStr(  ":\n"  );
 };
 
-//_prelabel
+//_prelabel	print label procedure body
 void
 arm_prelabel( register char *s )
 {
@@ -441,6 +467,9 @@ arm_prelabel( register char *s )
 	printStr(  ":\n"  );
 }
 
+//==========================================================
+//===========	CODE GENERATOR	============================
+//==========================================================
 //push number on stack
 void
 pushnum( register int n )
@@ -462,7 +491,7 @@ pushnum( register int n )
 	objsize[sp-1] = 0;
 };
 
-//
+//GP - global data address reg value
 void
 pushgpoff( register int off )
 {	incSp();
@@ -470,7 +499,7 @@ pushgpoff( register int off )
 	objsize[sp-1] = 0;
 };
 
-
+//stack frame pointer
 void
 pushfpoff( register int off )
 {	incSp();
@@ -494,7 +523,7 @@ pusharg( register int argno )
 	objsize[sp-1] = 0;
 };
 
-//variable value
+//pointer
 void
 lval( register int size )
 {	objsize[sp-1] = size;
@@ -712,7 +741,7 @@ jumpf( register int a )
 	decSp();
 };
 
-//jump on true
+//jump on nonzero ("true")
 void
 jumpt( register int a )
 {	loadtos();
@@ -720,14 +749,14 @@ jumpt( register int a )
 	decSp();
 };
 
-//label
+//label handler
 void
 label( register int a )
 {
 	arm_label_( a );
 };
 
-//goto implementation
+//goto handler
 void 
 ghoto( register char *s )
 {	arm_j( s );
@@ -742,20 +771,21 @@ target( register char *s )
 //arm startup
 void
 startup( void )
-{	arm_text();
-	arm_globl(  "main"  );
-	arm_globl_(  "exit"  );
+{	
 	printStr(  ";====\n"  );
 	printStr(  ";FOO\n"  );
 	printStr(  ";====\n"  );
 	foo(); 
-	printStr(  "\n;====\n"  );
+	printStr(  "\n;====\n\n\n"  );
+	arm_text();
+	arm_globl(  "main"  );
+	arm_globl_(  "exit"  );
 	arm_label(  "ENTRY"  );
 	arm_label(  "main"  );
 	arm_bl_(  "main"  );
 }
 
-//call function
+//call function by branch and link return address
 void
 call( register int mysym )
 {	register char *n = nameString( symtab[mysym].ipos );
@@ -789,7 +819,7 @@ call( register int mysym )
 };
 
 
-//function begin
+//function begin INT return; int foo(void) / int foo(args)
 void
 funcbegin( register int mysym )
 {	register char *n = nameString( symtab[mysym].ipos );
@@ -863,7 +893,7 @@ funcend( register int mysym )
 	--scope;
 };
 
-//variable definition
+//memory definition
 void
 def( register int mysym )
 {	register char *n = nameString( symtab[mysym].ipos );
@@ -892,7 +922,7 @@ def( register int mysym )
 	};
 };
 
-//define string variable
+//string memory definition
 int
 defstr( register int spos )
 {	register int num;

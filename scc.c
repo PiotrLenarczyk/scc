@@ -4,7 +4,13 @@
 
 	MIPS uCompiler from KentuckY.
 */
+/*
+	TRIVIAL C -> TARGET_ASM -> Assembler -> Linker -> Machine code
+	COMPILER:	TOKENIZER(lexical analyzer) -> SYMBOL TABLE
+											-> PARSER (syntax analyzer) -> CODE GENERATOR
 
+
+*/
 
 /*target lists*/
 #if defined MIPS
@@ -240,6 +246,11 @@ printNumber(register int n)
 {	printf("0x%X", n);
 };
 
+void
+printNumber10(register int n)
+{	printf("%d", n);
+};
+
 //	INSTRUCITON SET API
 //#if (COMPILER_TARGET == MIPS)
 #if defined MIPS
@@ -249,7 +260,9 @@ printNumber(register int n)
 	#include "sccARM_FUNCTIONS.c"
 #endif	//TARGET == MIPS
 
-
+//==================================================================
+//=============================	LEXER	============================
+//==================================================================
 /*	Lexicals...
 */
 
@@ -292,6 +305,7 @@ nameis(register char *p)
 	};
 };
 
+//update token
 int
 lexhelp(void)
 {	register int base = 10;
@@ -378,14 +392,14 @@ again:
 				lexnum = (lexnum * base) + t;
 				++ipos;
 			}
-		case '\'':
+		case '\'':				//character
 			++ipos;
 			lexnum = input[ipos++];
 			if (input[ipos++] != '\'') 
 			{	error("ill-formed character constant");
 			};
 			return(NUM);
-		case '"':
+		case '"':				//string
 			lexstr = ipos;
 			do 
 			{	++ipos;
@@ -434,6 +448,7 @@ again:
 				      WORD));
 };
 
+//next token
 int
 lex(void)
 {	nextToken = lexhelp();
@@ -461,7 +476,9 @@ assume(register int t)
 
 /*	Parsing...
 */
-
+//================================================================
+//=========================	PARSER	==============================
+//================================================================
 void
 memaddr(register int mysym)
 {	/* Base address */
@@ -591,6 +608,7 @@ unary(void)
 	};
 };
 
+//multiply; divide; modulo;
 void
 mul(void)
 {	register int t;
@@ -611,6 +629,7 @@ mul(void)
 	};
 };
 
+//addition; substraction
 void
 add(void)
 {	register int t;
@@ -630,6 +649,7 @@ add(void)
 	};
 };
 
+//shift left; shift right;
 void
 slsr(void)
 {	register int t;
@@ -649,6 +669,7 @@ slsr(void)
 	};
 };
 
+//lessEqual; lessThan; greatEqual; greatThan;
 void
 leltgegt(void)
 {	register int t;
@@ -670,6 +691,7 @@ leltgegt(void)
 	};
 };
 
+//equal; notEqual
 void
 eqne(void)
 {	register int t;
@@ -716,6 +738,7 @@ or(void)
 	};
 };
 
+//logical andand	&&
 void
 andand(void)
 {	register int lab;
@@ -742,6 +765,7 @@ andand(void)
 	};
 };
 
+//logical oror	||
 void
 oror(void)
 {	register int lab;
@@ -788,6 +812,9 @@ cond(void)
 	};
 };
 
+//================================================================
+//======================	ASSIGMENTS	==========================
+//================================================================
 void
 assign(void)
 {	register int t;
@@ -799,56 +826,56 @@ assign(void)
 			assign();
 			store(1);
 			break;
-		case OE:
+		case OE:			// |=
 			lex();
 			pushdup();
 			assign();
 			pushop('|');
 			store(1);
 			break;
-		case XE:
+		case XE:			//^=
 			lex();
 			pushdup();
 			assign();
 			pushop('^');
 			store(1);
 			break;
-		case AE:
+		case AE:			//&=
 			lex();
 			pushdup();
 			assign();
 			pushop('&');
 			store(1);
 			break;
-		case PE:
+		case PE:			//+=
 			lex();
 			pushdup();
 			assign();
 			pushop('+');
 			store(1);
 			break;
-		case ME:
+		case ME:			//-=
 			lex();
 			pushdup();
 			assign();
 			pushop('-');
 			store(1);
 			break;
-		case TE:
+		case TE:			//*=
 			lex();
 			pushdup();
 			assign();
 			pushop('*');
 			store(1);
 			break;
-		case DE:
+		case DE:			// /=
 			lex();
 			pushdup();
 			assign();
 			pushop('/');
 			store(1);
 			break;
-		case RE:
+		case RE:			//%=
 			lex();
 			pushdup();
 			assign();
@@ -858,6 +885,10 @@ assign(void)
 	};
 };
 
+//============================================================
+//===================	EXPRESSION	==========================
+//============================================================
+//f.e. if ((A>B),(C!=D)
 void
 expr(void)
 {	assign();
@@ -867,6 +898,7 @@ expr(void)
 	};
 };
 
+//newSymbol
 int
 newsym(void)
 {	/* Create a new symbol table entry */
@@ -892,6 +924,10 @@ newsym(void)
 	return(mysym);
 }
 
+//============================================================
+//===================	STATEMENT	==========================
+//============================================================
+//f.e. if (expression) then statement
 void
 stat(void)
 {	register int scopesymsp, scopeoffset;
@@ -899,7 +935,7 @@ stat(void)
 	register int mysym;
 
 	switch (nextToken) 
-	{	case '{':
+	{	case '{':					//procedure
 			lex();
 			scopesymsp = symsp;
 			scopeoffset = fpoffset;
@@ -912,7 +948,7 @@ stat(void)
 			symsp = scopesymsp;
 			fpoffset = scopeoffset;
 			break;
-		case IF:
+		case IF:					//if (expressiong) statement
 			lex();
 			expr();
 			lab = labelNum;
@@ -929,7 +965,7 @@ stat(void)
 			{	label(lab);
 			};
 			break;
-		case FOR:
+		case FOR:					//for(variable==expression1;/*TO*/ expression2; optionalExpression3) statement
 			lex();
 			assume('(');
 			lab = labelNum;
@@ -958,7 +994,7 @@ stat(void)
 			jump(lab+3);
 			label(lab+1);
 			break;
-		case WHILE:
+		case WHILE:				//while(expression) statement
 			lex();
 			lab = labelNum;
 			labelNum += 2;
@@ -969,7 +1005,7 @@ stat(void)
 			jump(lab);
 			label(lab+1);
 			break;
-		case DO:
+		case DO:				//do statement while(expression)	-> at least single pass
 			lex();
 			lab = (labelNum++);
 			label(lab);
@@ -989,7 +1025,7 @@ stat(void)
 			}
 			match(';');
 			break;
-		case GOTO:
+		case GOTO:				//goto label
 			lex();
 			ghoto(nameString(symtab[newsym()].ipos));
 			--symsp;
@@ -1026,6 +1062,9 @@ ctype(void)
 	return(0);
 };
 
+//============================================================
+//===================	DECLARATION	==========================
+//============================================================
 void
 decl(void)
 {	register int scopeoffset;

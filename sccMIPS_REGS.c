@@ -25,7 +25,7 @@
 	};
 
 	void
-	printImmediate(register int r);
-	{	printf("%d", r);
+	printImmediate(register int r)
+	{	printf("0x%X", r);
 	};
 	

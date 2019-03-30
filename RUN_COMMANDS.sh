@@ -10,5 +10,5 @@ echo "====" && echo "source:" && echo "===="&&
 cat 00_main.c &&
 echo "====" && echo "cCompiler:" && echo "===="&&
 #gdb --args cCompiler.out 00_main.c
-./cCompiler.out 00_main.c &> cASM.asm && cat cASM.asm
+./cCompiler.out 00_main.c &> $TARGET"_ASM.asm" && cat $TARGET"_ASM.asm"
 exit 0;
