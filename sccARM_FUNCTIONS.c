@@ -4,8 +4,7 @@
 #define	TMP	( T0 + sp )			//temporary
 
 void 
-printImmedShifted( register int rTarget,
-register int immed4B, 
+printImmedShifted(register int immed4B, 
 register int bitLeftShift)
 {	printSharp();
 	printStr( "((" );
@@ -20,50 +19,118 @@ register int immed )
 {	
 /*
 	printTab();printTab();printTab();
+	printOperand(  "mov"  );	//push R7 to temporary reg - it will be restored at function end
+	print_rt( R8 );
+	printComma();
+	print_rs( R7 );	
+
+	printNewLine();
+	printTab();printTab();printTab();
 	printOperand(  "movs"  );
-	print_rs( R6 );
+	print_rs( R7 );
 	printComma();  
-	printImmedShifted( rTarget, immed, 0x0 ); 
+	printImmedShifted( immed, 0x0 ); 
+	
 	printNewLine();
 	printTab();printTab();printTab();
-	printOperand(  "adds"  );
-	print_rs( R6 );
-	printComma();
-	printImmedShifted( rTarget, immed, 0x8 ); 
-	printNewLine();
-	printTab();printTab();printTab();
-	printOperand(  "adds"  );
-	print_rs( R6 );
-	printComma();
-	printImmedShifted( rTarget, immed, 0x10 ); 
-	printNewLine(); 
-	printTab();printTab();printTab();
-	printOperand(  "adds"  );
-	print_rs( R6 );
-	printComma();
-	printImmedShifted( rTarget, immed, 0x18 ); 
-	printNewLine();
-*/
 	printOperand(  "movs"  );
+	print_rs( R6 );
+	printComma();
+	printImmedShifted( immed, 0x8 ); 
+	printNewLine();
+	printTab();printTab();printTab();
+	printOperand( "lsls" );
+	print_rs( R6 );
+	printComma();
+	printImmediate( 0x8 );
+	printNewLine();
+	printTab();printTab();printTab();
+	printOperand( "orrs" );
+	print_rt( R7 );
+	printComma();
+	print_rs( R6 );
+
+	printNewLine();
+	printTab();printTab();printTab();
+	printOperand(  "movs"  );
+	print_rs( R6 );
+	printComma();
+	printImmedShifted( immed, 0x10 ); 
+	printNewLine();
+	printTab();printTab();printTab();
+	printOperand( "lsls" );
+	print_rs( R6 );
+	printComma();
+	printImmediate( 0x10 );
+	printNewLine();
+	printTab();printTab();printTab();
+	printOperand( "orrs" );
+	print_rt( R7 );
+	printComma();
+	print_rs( R6 );
+
+	printNewLine();
+	printTab();printTab();printTab();
+	printOperand(  "movs"  );
+	print_rs( R6 );
+	printComma();
+	printImmedShifted( immed, 0x18 );
+	printNewLine();
+	printTab();printTab();printTab();
+	printOperand( "lsls" );
+	print_rs( R6 );
+	printComma();
+	printImmediate( 0x18 );
+	printNewLine();
+	printTab();printTab();printTab();
+	printOperand( "orrs" );
+	print_rt( R6 );
+	printComma();
+	print_rs( R7 );
+	
+	printNewLine();
+	printTab();printTab();printTab();
+	printOperand(  "mov"  );	//push R7 to temporary reg - it will be restored at function end
+	print_rt( R7 );
+	printComma();
+	print_rs( R8 );	
+//*/ 
+	printNewLine();
+	printTab();printTab();printTab();
+	printOperand(  ";movs"  );
+	print_rt( R6 );
+	printStr( ",#" );
+	printNumber( immed );
+	printStr( " (" );
+	printNumber10( immed );
+	printChar( ')' );
+	// if (immed >= 0)
+	// {	printStr(",#");
+		// printNumber( immed );
+	// }else
+	// {	printStr(",#");
+		// printNumber10( immed );
+	// };
+	
+	printNewLine();
+	printOperand( "movs" );
 	print_rt( rTarget );
 	printComma();
-	print_rt( R6 );
-	printStr(" ;#");
-	printNumber( immed );
-	printStr(";(#");
-	printNumber10( immed );
-	printChar(')');
+	print_rs( R6 );
 };
 
-void operandImmediate(register char* inOperand,
+void operandImmediate(register char* inOperand, 
 register int rt,
 register int rs,
 register int immed)   
-{	if ( rs )
+{	if( rt == rs )
+	return;
+	if ( rs )
 	{	arm_loadImmed( rs, immed );
 		printNewLine();
 		printTab();
-		printStr( inOperand );
+		//printStr( inOperand );
+		printf("%s",inOperand);
 		printTab();
 		print_rt( rt );
 		printComma();
@@ -71,12 +138,13 @@ register int immed)
 		printNewLine();
 		return;
 	};
-	if (( rs == 0x0 ) && (immed > 0xFF))
+	if (( rs == 0x0 ) || (immed > 0xFF))
 	{	rs = R6;
 		arm_loadImmed( rs, immed );
 		printNewLine();
 		printTab();
-		printStr( inOperand );
+		// printStr( inOperand );
+		printf("%s",inOperand);
 		printTab();
 		print_rt( rt );
 		printComma();
@@ -86,7 +154,8 @@ register int immed)
 	};
 	printNewLine();
 	printTab();
-	printStr( inOperand );
+	// printStr( inOperand );
+	printf("%s",inOperand);
 	printTab();
 	print_rt( rt );
 	printComma();
@@ -134,7 +203,17 @@ register int immed )
 	printNewLine();
 };
 
-//Rdest, Roperand1, Roperand2
+//Rdest, Rsource, Rtemporary
+void
+arm_2reg( register int rd,
+register int rs )
+{	print_rt( rd );
+	printComma();
+	print_rs( rs );
+	printNewLine();
+};
+
+//Rdest, Rsource, Rtemporary
 void
 arm_3reg( register int rd,
 register int rs,
@@ -198,8 +277,7 @@ register int immed )
 		arm_beq( register int rt,
 		register int rs,
 		register int immed )
-		{	printOperand(  "beq"  );
-			arm_offset( rt, rs, immed );
+		{	operandImmediate( "beq", rt, rs, immed );
 		};
 
 		//branch on not equal`
@@ -207,19 +285,18 @@ register int immed )
 		arm_bne( register int rt,
 		register int rs,
 		register int immed )
-		{	printOperand(  "bne"  );
-			arm_offset( rt, rs, immed );
+		{	operandImmediate(  "bne", rt, rs, immed );
 		};
 
 		//jump for address stored in register
 		void
-		arm_jr( register int r )
-		{	printOperand(  "j"  );
+		arm_b( register int r )
+		{	printOperand(  "b"  );
 			printReg( r );
 			printNewLine();
 		};
 
-//allocate nuninitialized memory
+//allocate uninitialized memory
 void
 arm_space( register int n )
 {	printStr(  "\t.space\t"  );
@@ -232,8 +309,8 @@ arm_space( register int n )
 		arm_or( register int rd,
 		register int rs,
 		register int rt )
-		{	printOperand(  "orrs"  );
-			arm_3reg( rd, rs, rt );
+		{	printOperand( "orrs" );
+			arm_2reg( rd, rs );
 		};
 
 //unsigned XOR
@@ -253,15 +330,6 @@ register int rt )
 {	printOperand(  "and"  );
 	arm_3reg( rd, rs, rt );
 };
-
-//unsigned addition
-void
-arm_addu( register int rd,
-register int rs,
-register int rt )
-{	printOperand(  "addu"  );
-	arm_3reg( rd, rs, rt );
-}
 
 //unsigned substraction
 void
@@ -338,7 +406,7 @@ register int rs )
 
 //load 4B word
 void
-arm_lw( register int rt,
+arm_ldr( register int rt,
 register int immed,
 register int rs )
 {	printOperand(  "lw"  );
@@ -471,23 +539,24 @@ arm_prelabel( register char *s )
 //===========	CODE GENERATOR	============================
 //==========================================================
 //push number on stack
-void
+void 
 pushnum( register int n )
 {	incSp();
-	/* Try to optimize immediate handling...
-	   ori immediate doesn't sign extend,
-	   addi immediate does
-	*/
 	if ( ( n & 0xffff8000 ) == 0xffff8000 ) 
-	{	arm_adds(  TOS, 0, n  );
+	{	operandImmediate( "adds", TOS, 0, n  );
+		//arm_adds(  TOS, 0, n  );
 	} else if ( ( n & 0xffff0000 ) == 0 ) 
-	{	arm_ori( TOS, 0, n );
+	{	operandImmediate( "orrs", TOS, 0, n );
+		//arm_ori( TOS, 0, n );
 	} else if ( ( n & 0x0000ffff ) == 0 ) 
-	{	arm_movs( TOS, ( ( n >> 16 ) & 0xffff ) );
+	{	operandImmediate( "movs", TOS, 0, n );
+		//arm_movs( TOS, ( ( n >> 16 ) & 0xffff ) );
 	} else 
-	{	arm_movs( TOS, ( ( n >> 16 ) & 0xffff ) );
-		arm_ori( TOS, TOS, ( n & 0xffff ) );
+	{	operandImmediate( "movs", TOS, 0, n );
+		//arm_movs( TOS, ( ( n >> 16 ) & 0xffff ) );
+		//arm_ori( TOS, TOS, ( n & 0xffff ) );
 	};
+	
 	objsize[sp-1] = 0;
 };
 
@@ -537,7 +606,7 @@ loadtos( void )
 	{	case 0:	return;
 		case 1: arm_lb( TOS, 0, TOS ); break;
 		case 2: arm_lh( TOS, 0, TOS ); break;
-		case 4: arm_lw( TOS, 0, TOS ); break;
+		case 4: arm_ldr( TOS, 0, TOS ); break;
 		default:
 			error(  "cannot load %d-byte object",
 				  objsize[sp-1] );
@@ -590,24 +659,24 @@ pushop( register int op )
 			break;
 		case MULBY4:
 			loadtos();
-			arm_addu( TOS, TOS, TOS );
-			arm_addu( TOS, TOS, TOS );
+			arm_adds( TOS, TOS, TOS );
+			arm_adds( TOS, TOS, TOS );
 			break;
 		case MULBY2:
 			loadtos();
-			arm_addu( TOS, TOS, TOS );
+			arm_adds( TOS, TOS, TOS );
 			break;
 		case AFP:
 			loadtos();
-			arm_addu( TOS, TOS, FP );
+			arm_adds( TOS, TOS, FP );
 			break;
 		case ASP:
 			loadtos();
-			arm_addu( TOS, TOS, SP );
+			arm_adds( TOS, TOS, SP );
 			break;
 		case AGP:
 			loadtos();
-			arm_addu( TOS, TOS, GP );
+			arm_adds( TOS, TOS, GP );
 			break;
 		case RETVAL:
 			loadtos();
@@ -616,7 +685,7 @@ pushop( register int op )
 			break;
 		case '+':
 			loadnostos();
-			arm_addu( NOS, NOS, TOS );
+			arm_adds( NOS, NOS, TOS );
 			decSp();
 			break;
 		case '-':
@@ -807,7 +876,7 @@ call( register int mysym )
 	/* Restore registers */
 	if ( sp > 0 ) 
 	{	for ( i=T0; i<=TOS; ++i ) 
-		{	arm_lw( i, -4*( i-T0 ), SP );
+		{	arm_ldr( i, -4*( i-T0 ), SP );
 		};
 		arm_adds( SP, SP, 4*( TOS-T0+1 ) );
 	};
@@ -871,11 +940,11 @@ funcend( register int mysym )
 		highwater += 8;	
 
 		label( endlab );
-		arm_lw( RA, -4, FP );		/* ra = fp[-4] */
+		arm_ldr( RA, -4, FP );		/* ra = fp[-4] */
 		arm_or( SP, FP, 0 );		/* sp = fp */
-		arm_lw( FP, 0, SP );		/* fp = old fp */
+		arm_ldr( FP, 0, SP );		/* fp = old fp */
 		arm_adds( SP, SP, 4 );		/* sp = old sp */
-		arm_jr( RA );			/* return */
+		arm_b( RA );			/* return */
 		arm_prelabel( n );
 		arm_adds( SP, SP, -highwater );	/* sp -= highwater */
 		arm_sw( FP, highwater-4, SP );	/* sp[highwater-4] = fp */
@@ -884,7 +953,7 @@ funcend( register int mysym )
 	} else 
 	{	/* A leaf without locals... */
 		label( endlab );
-		arm_jr( RA );			/* return */
+		arm_b( RA );			/* return */
 		arm_prelabel( n );
 	}
 

@@ -12,7 +12,7 @@
 		printComma();
 		print_rs(rs);
 		printComma();
-		printImmediate(immed);
+		printImmediate10(immed);
 		printNewLine();
 	};
 	
@@ -26,7 +26,7 @@
 		print_rs(rs);
 		printComma();
 		printChar('_');
-		printNumber(immed);
+		printNumber10(immed);
 		printNewLine();
 	};
 
@@ -50,7 +50,7 @@
 	register int rs)
 	{	print_rt(rt);
 		printComma();
-		printImmediate(immed);
+		printImmediate10(immed);
 		printChar('(');
 		print_rs(rs);
 		printChar(')');
@@ -61,10 +61,10 @@
 	void
 	mips_lui(register int rt,
 	register int immed)
-	{	printOperand("ldrW");
+	{	printOperand("lui");
 		print_rs(rt);
 		printComma();
-		printImmediate(immed);
+		printImmediate10(immed);
 		printNewLine();
 	};
 
@@ -125,7 +125,7 @@
 	void
 	mips_space(register int n)
 	{	printStr("\t.space\t");
-		printNumber(n);
+		printNumber10(n);
 		printNewLine();
 	};
 
@@ -275,7 +275,7 @@
 	void
 	mips_data(int n)
 	{	printStr("\t.data\t");
-		printNumber(n);
+		printNumber10(n);
 		printChar('\n');
 	};
 
@@ -295,7 +295,7 @@
 	mips_j_(register int n)
 	{	printOperand("j");
 		printChar('_');
-		printNumber(n);
+		printNumber10(n);
 		printNewLine();
 	};
 
@@ -353,7 +353,7 @@
 	void
 	mips_label_(register int n)
 	{	printChar('_');
-		printNumber(n);
+		printNumber10(n);
 		printStr(":\n");
 	};
 

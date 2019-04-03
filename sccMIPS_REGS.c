@@ -29,3 +29,8 @@
 	{	printf("0x%X", r);
 	};
 	
+	
+	void
+	printImmediate10(register int r)
+	{	printf("%d", r);
+	};
