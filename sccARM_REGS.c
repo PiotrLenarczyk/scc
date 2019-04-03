@@ -1,3 +1,4 @@
+#pragma once
 #define NULL_REG	NULL_REG
 #define T0	R3	//first temporary reg
 #define	A0	R1	//first argument reg

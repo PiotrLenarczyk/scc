@@ -1,4 +1,5 @@
-
+#pragma once
+#include "sccARM_REGS.c"
 #define	TOS	( T0 + ( sp-1 ) )	//Top of stack
 #define	NOS	( T0 + ( sp-2 ) )	//next on stack
 #define	TMP	( T0 + sp )			//temporary

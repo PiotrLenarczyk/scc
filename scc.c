@@ -8,9 +8,10 @@
 	TRIVIAL C -> TARGET_ASM -> Assembler -> Linker -> Machine code
 	COMPILER:	TOKENIZER(lexical analyzer) -> SYMBOL TABLE
 											-> PARSER (syntax analyzer) -> CODE GENERATOR
-
-
-*/
+*/ 
+#if (defined _WIN32) && (defined _MSC_VER)
+#define _CRT_SECURE_NO_WARNINGS
+#endif
 
 /*target lists*/
 #if defined MIPS
@@ -28,6 +29,7 @@
 #ifndef COMPILER_TARGET_CHOOSEN		
 	#define COMPILER_TARGET				MIPS
 #endif
+
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -1145,6 +1147,7 @@ moredecls:
 	};
 };
 
+
 int
 main(int argc, char **argv)
 {	int c;
@@ -1152,6 +1155,7 @@ main(int argc, char **argv)
 	long lSize;
 	char * buffer;
 	size_t result;
+	puts("scc hello");
 	
 	eof = 0;
 	if ( argc == 0x2 )
@@ -1175,4 +1179,5 @@ main(int argc, char **argv)
 	nextToken = lex();
 	startup();
 	decl();
+	return 0;
 }

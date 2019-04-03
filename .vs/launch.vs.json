@@ -1,0 +1,15 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "scc.exe",
+      "name": "scc.exe",
+      "args": [
+        "C:\\Users\\piotr\\Documents\\programowanieGithub\\scc\\00_main.c"
+      ]
+    }
+  ]
+}
