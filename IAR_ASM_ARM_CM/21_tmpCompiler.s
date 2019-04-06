@@ -6,4 +6,3 @@ main:
 	adds r2, r1, r0
 	ldr r3, =memAddr
 	str	r2, [r3]
-	

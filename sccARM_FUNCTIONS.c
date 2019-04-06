@@ -132,7 +132,7 @@ int immed)
 	// if( rt == rs )
 		// return;
 	if ( rs )
-	{	arm_addsImmed( rs, immed );
+	{	arm_loadImmed( immed );
 		printNewLine();
 		printTab();
 		//printStr( inOperand );
@@ -141,12 +141,14 @@ int immed)
 		print_rt( rt );
 		printComma();
 		print_rs( rs );
+		printComma();
+		print_rs( R6 );
 		printNewLine();
 		return;
 	};
 	if (( rs == 0x0 ) || (immed > 0xFF))
 	{	rs = R6;
-		arm_addsImmed( rs, immed );
+		arm_loadImmed( rs, immed );
 		printNewLine();
 		printTab();
 		// printStr( inOperand );
@@ -155,6 +157,8 @@ int immed)
 		print_rt( rt );
 		printComma();
 		print_rs( rs );
+		printComma();
+		print_rs(R6);
 		printNewLine();
 		return;
 	};
@@ -389,15 +393,18 @@ void
 arm_sw( int rt,
 int immed, 
 int rs )
-{	printNewLine();printNewLine();
+{	printNewLine();
 	// printOperand(  "str"  );	//??
-	// arm_adds( R6, rt, immed );
+	//arm_ls( rt, immed, rs );
+	printTab(); printTab(); printTab();
+	arm_adds( R6, rs, immed );
+	printOperand( "str" );
+	print_rt( rt );
+	printComma();
+	printChar( '[' );
+	print_rs( R6 );
+	printChar( ']' );
 	printNewLine();
-	arm_ls( rt, immed, rs );
-	// printOperand( "str" );
-	// print_rt( rs );
-	// printComma();
-	// print_rs( R6 );
 };
 
 //store 2B halfword
@@ -405,7 +412,7 @@ void
 arm_sh( int rt,
 int immed,
 int rs )
-{	printOperand(  "sh"  );
+{	printOperand(  "STOREHALFWORD"  );
 	arm_ls( rt, immed, rs );
 };
 
@@ -414,7 +421,7 @@ void
 arm_sb( int rt,
 int immed,
 int rs )
-{	printOperand(  "sb"  );
+{	printOperand(  "STOREBYTE"  );
 	arm_ls( rt, immed, rs );
 };
 

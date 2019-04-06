@@ -5,30 +5,28 @@
     <configuration>
         <name>Debug</name>
         <outputs>
-            <file>$PROJ_DIR$\asmCut.s</file>
             <file>$PROJ_DIR$\Debug\List\PROJECT.map</file>
-            <file>$PROJ_DIR$\asm_generic_CM.icf</file>
-            <file>$PROJ_DIR$\Debug\Exe\PROJECT.txt</file>
-            <file>$PROJ_DIR$\Debug\Exe\PROJECT.out</file>
-            <file>$PROJ_DIR$\13_ldrW.s</file>
             <file>$PROJ_DIR$\Debug\List\asmCut.lst</file>
             <file>$PROJ_DIR$\Debug\List\PROJECT.log</file>
-            <file>$PROJ_DIR$\Debug\Obj\asmCut.o</file>
+            <file>$PROJ_DIR$\asm_generic_CM.icf</file>
+            <file>$PROJ_DIR$\Debug\Exe\PROJECT.txt</file>
             <file>$PROJ_DIR$\21_tmpCompiler.s</file>
-            <file>$PROJ_DIR$\19_multiplication.s</file>
+            <file>$PROJ_DIR$\asmCut.s</file>
+            <file>$PROJ_DIR$\Debug\Obj\asmCut.o</file>
+            <file>$PROJ_DIR$\Debug\Exe\PROJECT.out</file>
         </outputs>
         <file>
             <name>$PROJ_DIR$\asmCut.s</name>
             <outputs>
                 <tool>
                     <name>AARM</name>
-                    <file> 8 6</file>
+                    <file> 7 1</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>AARM</name>
-                    <file> 9</file>
+                    <file> 5</file>
                 </tool>
             </inputs>
         </file>
@@ -36,18 +34,18 @@
             <name>$PROJ_DIR$\Debug\Exe\PROJECT.out</name>
             <outputs>
                 <tool>
-                    <name>ILINK</name>
-                    <file> 1 7</file>
+                    <name>OBJCOPY</name>
+                    <file> 4</file>
                 </tool>
                 <tool>
-                    <name>OBJCOPY</name>
-                    <file> 3</file>
+                    <name>ILINK</name>
+                    <file> 0 2</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 2 8</file>
+                    <file> 3 7</file>
                 </tool>
             </inputs>
         </file>
@@ -56,7 +54,7 @@
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 4 1 7</file>
+                    <file> 0 2 8</file>
                 </tool>
             </outputs>
         </file>

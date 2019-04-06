@@ -1156,6 +1156,7 @@ main(int argc, char **argv)
 	puts("scc hello");
 	
 	eof = 0;
+#if (0)
 	if ( argc == 0x2 )
 	{	pFile = fopen ( argv[argc - 1], "r" );
 		if (pFile==NULL) {fputs ("File error",stderr); exit (1);}
@@ -1171,6 +1172,19 @@ main(int argc, char **argv)
 	} else
 	{	while ((c = getchar()) != EOF) input[eof++] = c;
 	};
+#else
+	pFile = fopen("C:\\Users\\piotr\\Documents\\programowanieGithub\\scc\\00_main.c", "r");
+	if (pFile == NULL) { fputs("File error", stderr); exit(1); }
+	// obtain file size:
+	fseek(pFile, 0, SEEK_END);
+	lSize = ftell(pFile);
+	rewind(pFile);
+
+	// copy the file into the buffer:
+	result = fread(input, 1, lSize, pFile);
+	if (result != lSize) { fputs("Reading error", stderr); exit(3); }
+	eof = lSize;
+#endif
 
 	input[eof] = 0;
 	ipos = 0;
