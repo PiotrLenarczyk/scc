@@ -5,8 +5,8 @@
 #define	TMP	( T0 + sp )			//temporary
 
 void 
-printImmedShifted(register int immed4B, 
-register int bitLeftShift)
+printImmedShifted(int immed4B, 
+int bitLeftShift)
 {	printSharp();
 	printStr( "((" );
 	printNumber( immed4B );
@@ -15,9 +15,8 @@ register int bitLeftShift)
 	printStr( ") & 0xFF)" );
 };
 
-void arm_loadImmed( register int rTarget, 
-register int immed )
-{	
+void arm_loadImmed( int immed )
+{
 /*
 	printTab();printTab();printTab();
 	printOperand(  "mov"  );	//push R7 to temporary reg - it will be restored at function end
@@ -85,7 +84,7 @@ register int immed )
 	printNewLine();
 	printTab();printTab();printTab();
 	printOperand( "orrs" );
-	print_rt( R6 );
+	print_rt( R6 ); 
 	printComma();
 	print_rs( R7 );
 	
@@ -105,8 +104,13 @@ register int immed )
 	printStr( " (" );
 	printNumber10( immed );
 	printChar( ')' );
+};
+
+void arm_addsImmed(  int rTarget, 
+int immed )
+{	arm_loadImmed( immed );	
 	// if (immed >= 0)
-	// {	printStr(",#");
+	// {	printStr(",#");  
 		// printNumber( immed );
 	// }else
 	// {	printStr(",#");
@@ -114,20 +118,21 @@ register int immed )
 	// };
 	
 	printNewLine();
-	printOperand( "movs" );
+	printOperand( "adds" );
 	print_rt( rTarget );
 	printComma();
-	print_rs( R6 );
+	print_rs( R6 ); 
 };
 
-void operandImmediate(register char* inOperand, 
-register int rt,
-register int rs,
-register int immed)   
-{	if( rt == rs )
-	return;
+void operandImmediate(char* inOperand, 
+int rt,
+int rs,
+int immed)  
+{	
+	// if( rt == rs )
+		// return;
 	if ( rs )
-	{	arm_loadImmed( rs, immed );
+	{	arm_addsImmed( rs, immed );
 		printNewLine();
 		printTab();
 		//printStr( inOperand );
@@ -141,7 +146,7 @@ register int immed)
 	};
 	if (( rs == 0x0 ) || (immed > 0xFF))
 	{	rs = R6;
-		arm_loadImmed( rs, immed );
+		arm_addsImmed( rs, immed );
 		printNewLine();
 		printTab();
 		// printStr( inOperand );
@@ -168,18 +173,18 @@ register int immed)
 void
 foo()
 {	
-	register int rTarget = 0x2;
-	register int rs = 0x1;
-	register int immed = -15;
+	int rTarget = 0x2;
+	int rs = 0x1;
+	int immed = -15;
 	char inOperand[] = "adds";
 };
 
 
 		// //immediate value
 		// void
-		// arm_immed( register int rt,
-		// register int rs,
-		// register int immed ) 
+		// arm_immed( int rt,
+		// int rs,
+		// int immed ) 
 		// {	print_rt( rt );
 			// printComma();
 			// if (rs)
@@ -192,9 +197,9 @@ foo()
 
 //address offset
 void
-arm_offset( register int rt,
-register int rs,
-register int immed )
+arm_offset( int rt,
+int rs,
+int immed )
 {	print_rt( rt );
 	printComma();
 	print_rs( rs );
@@ -206,8 +211,8 @@ register int immed )
 
 //Rdest, Rsource, Rtemporary
 void
-arm_2reg( register int rd,
-register int rs )
+arm_2reg( int rd,
+int rs )
 {	print_rt( rd );
 	printComma();
 	print_rs( rs );
@@ -216,9 +221,9 @@ register int rs )
 
 //Rdest, Rsource, Rtemporary
 void
-arm_3reg( register int rd,
-register int rs,
-register int rt )
+arm_3reg( int rd,
+int rs,
+int rt )
 {	print_rt( rd );
 	printComma();
 	print_rs( rs );
@@ -229,10 +234,11 @@ register int rt )
 
 //load register-relative immediate offset
 void
-arm_ls( register int rt,
-register int immed,
-register int rs )
-{	print_rt( rt );
+arm_ls( int rt,
+int immed,
+int rs )
+{	
+	print_rt( rt );	//??	
 	printComma();
 	printChar( '[' );
 	print_rs( rs );
@@ -244,54 +250,54 @@ register int rs )
 
 		//lui - load reg upper 2B with immediate ?
 		void
-		arm_movs( register int rt,
-		register int immed )
+		arm_movs( int rt,
+		int immed )
 		{	operandImmediate( "movs", rt, 0, immed );
 		};
 
 //immediate OR
 void
-arm_ori( register int rt,
-register int rs,
-register int immed )
+arm_orImmed( int rt,
+int rs,
+int immed )
 {	operandImmediate( "orrs", rt, rs, immed );
 };
 
 		//immediate addtion
 		void
-		arm_adds( register int rt,
-		register int rs,
-		register int immed )
+		arm_adds( int rt,
+		int rs,
+		int immed )
 		{	operandImmediate( "adds", rt, rs, immed );
 		};
 
 //immediate XOR
 void
-arm_xori( register int rt,
-register int rs,
-register int immed )
+arm_xori( int rt,
+int rs,
+int immed )
 {	operandImmediate( "eors", rt, rs, immed );
 };
 
 		//branch on equal
 		void
-		arm_beq( register int rt,
-		register int rs,
-		register int immed )
+		arm_beq( int rt,
+		int rs,
+		int immed )
 		{	operandImmediate( "beq", rt, rs, immed );
 		};
 
 		//branch on not equal`
 		void
-		arm_bne( register int rt,
-		register int rs,
-		register int immed )
+		arm_bne( int rt,
+		int rs,
+		int immed )
 		{	operandImmediate(  "bne", rt, rs, immed );
 		};
 
 		//jump for address stored in register
 		void
-		arm_b( register int r )
+		arm_b( int r )
 		{	printOperand(  "b"  );
 			printReg( r );
 			printNewLine();
@@ -299,7 +305,7 @@ register int immed )
 
 //allocate uninitialized memory
 void
-arm_space( register int n )
+arm_space( int n )
 {	printStr(  "\t.space\t"  );
 	printNumber( n );
 	printNewLine();
@@ -307,63 +313,63 @@ arm_space( register int n )
 
 		//unsigned OR
 		void
-		arm_or( register int rd,
-		register int rs,
-		register int rt )
+		arm_or( int rd,
+		int rs,
+		int rt )
 		{	printOperand( "orrs" );
 			arm_2reg( rd, rs );
 		};
 
 //unsigned XOR
 void
-arm_xor( register int rd,
-register int rs,
-register int rt )
+arm_xor( int rd,
+int rs,
+int rt )
 {	printOperand(  "xor"  );
 	arm_3reg( rd, rs, rt );
 };
 
 //unsigned AND
 void
-arm_and( register int rd,
-register int rs,
-register int rt )
+arm_and( int rd,
+int rs,
+int rt )
 {	printOperand(  "and"  );
 	arm_3reg( rd, rs, rt );
 };
 
 //unsigned substraction
 void
-arm_subu( register int rd,
-register int rs,
-register int rt )
+arm_subu( int rd,
+int rs,
+int rt )
 {	printOperand(  "subu"  );
 	arm_3reg( rd, rs, rt );
 };
 
 //set value if one reg is less than other reg
 void
-arm_slt( register int rd,
-register int rs,
-register int rt )
+arm_slt( int rd,
+int rs,
+int rt )
 {	printOperand(  "slt"  );
 	arm_3reg( rd, rs, rt );
 };
 
 //set on less than; if(rs<rt)
 void
-arm_sltu( register int rd,
-register int rs,
-register int rt )
+arm_sltu( int rd,
+int rs,
+int rt )
 {	printOperand(  "sltu"  );
 	arm_3reg( rd, rs, rt );
 };
 
 //shift left logical variable
 void
-arm_sllv( register int rd,
-register int rs,
-register int rt )
+arm_sllv( int rd,
+int rs,
+int rt )
 {
 	printOperand(  "sllv"  );
 	arm_3reg( rd, rs, rt );
@@ -371,63 +377,70 @@ register int rt )
 
 //shift right arithmetic variable
 void
-arm_srav( register int rd,
-register int rs,
-register int rt )
+arm_srav( int rd,
+int rs,
+int rt )
 {	printOperand(  "srav"  );
 	arm_3reg( rd, rs, rt );
 };
 
 //store 4B word
 void
-arm_sw( register int rt,
-register int immed, 
-register int rs )
-{	printOperand(  "str"  );
+arm_sw( int rt,
+int immed, 
+int rs )
+{	printNewLine();printNewLine();
+	// printOperand(  "str"  );	//??
+	// arm_adds( R6, rt, immed );
+	printNewLine();
 	arm_ls( rt, immed, rs );
+	// printOperand( "str" );
+	// print_rt( rs );
+	// printComma();
+	// print_rs( R6 );
 };
 
 //store 2B halfword
 void
-arm_sh( register int rt,
-register int immed,
-register int rs )
+arm_sh( int rt,
+int immed,
+int rs )
 {	printOperand(  "sh"  );
 	arm_ls( rt, immed, rs );
 };
 
 //store 1B byte
 void
-arm_sb( register int rt,
-register int immed,
-register int rs )
+arm_sb( int rt,
+int immed,
+int rs )
 {	printOperand(  "sb"  );
 	arm_ls( rt, immed, rs );
 };
 
 //load 4B word
 void
-arm_ldr( register int rt,
-register int immed,
-register int rs )
+arm_ldr( int rt,
+int immed,
+int rs )
 {	printOperand(  "lw"  );
 	arm_ls( rt, immed, rs );
 };
 
 //load 2B halfword
 void
-arm_lh( register int rt,
-register int immed,
-register int rs )
+arm_lh( int rt,
+int immed,
+int rs )
 {	printOperand(  "lh"  );
 	arm_ls( rt, immed, rs );
 };
 
 //load 1B byte
 void
-arm_lb( register int rt,
-register int immed,
-register int rs )
+arm_lb( int rt,
+int immed,
+int rs )
 {	printOperand(  "lb"  );
 	arm_ls( rt, immed, rs );
 };
@@ -448,7 +461,7 @@ arm_data( int n )
 
 //jump label
 void
-arm_j( register char *s )
+arm_j( char *s )
 {	printOperand(  "j"  );
 	while ( *s )
 	{	printChar( *s );
@@ -459,7 +472,7 @@ arm_j( register char *s )
 
 //jump _label
 void
-arm_j_( register int n )
+arm_j_( int n )
 {	printOperand(  "j"  );
 	printChar( '_' );
 	printNumber( n );
@@ -468,7 +481,7 @@ arm_j_( register int n )
 
 		//jump and link _label
 		void
-		arm_bl_( register char *s )
+		arm_bl_( char *s )
 		{	printOperand(  "bl"  );
 			printChar( '_' );
 			while ( *s )
@@ -486,7 +499,7 @@ arm_syscall( void )
 
 //global variable attribute
 void
-arm_globl( register char *s )
+arm_globl( char *s )
 {	printStr(  "\t.globl\t"  );
 	while ( *s )
 	{	printChar( *s );
@@ -497,7 +510,7 @@ arm_globl( register char *s )
 
 //global attribute for _variable
 void
-arm_globl_( register char *s )
+arm_globl_( char *s )
 {	printStr(  "\t.globl\t_"  );
 	while ( *s )
 	{	printChar( *s );
@@ -508,7 +521,7 @@ arm_globl_( register char *s )
 
 //label: print label procedure body
 void
-arm_label( register char *s )
+arm_label( char *s )
 {	while ( *s ) 
 	{	printChar( *s );
 		++s;
@@ -518,7 +531,7 @@ arm_label( register char *s )
 
 //_numLabel: print label name=number
 void
-arm_label_( register int n )
+arm_label_( int n )
 {	printChar( '_' );
 	printNumber( n );
 	printStr(  ":\n"  );
@@ -526,7 +539,7 @@ arm_label_( register int n )
 
 //_prelabel	print label procedure body
 void
-arm_prelabel( register char *s )
+arm_prelabel( char *s )
 {
 	printChar( '_' );
 	while ( *s ) {
@@ -541,21 +554,23 @@ arm_prelabel( register char *s )
 //==========================================================
 //push number on stack
 void 
-pushnum( register int n )
+pushnum( int n )
 {	incSp();
 	if ( ( n & 0xffff8000 ) == 0xffff8000 ) 
 	{	operandImmediate( "adds", TOS, 0, n  );
 		//arm_adds(  TOS, 0, n  );
-	} else if ( ( n & 0xffff0000 ) == 0 ) 
+	} 
+	else if ( ( n & 0xffff0000 ) == 0 ) 
 	{	operandImmediate( "orrs", TOS, 0, n );
-		//arm_ori( TOS, 0, n );
+		//arm_orImmed( TOS, 0, n );
 	} else if ( ( n & 0x0000ffff ) == 0 ) 
 	{	operandImmediate( "movs", TOS, 0, n );
 		//arm_movs( TOS, ( ( n >> 16 ) & 0xffff ) );
-	} else 
-	{	operandImmediate( "movs", TOS, 0, n );
+	} 
+	else 
+	{	operandImmediate( "orrs", TOS, 0, n );	//?? 
 		//arm_movs( TOS, ( ( n >> 16 ) & 0xffff ) );
-		//arm_ori( TOS, TOS, ( n & 0xffff ) );
+		//arm_orImmed( TOS, TOS, ( n & 0xffff ) );
 	};
 	
 	objsize[sp-1] = 0;
@@ -563,7 +578,7 @@ pushnum( register int n )
 
 //GP - global data address reg value
 void
-pushgpoff( register int off )
+pushgpoff( int off )
 {	incSp();
 	arm_adds( TOS, GP, off );
 	objsize[sp-1] = 0;
@@ -571,9 +586,10 @@ pushgpoff( register int off )
 
 //stack frame pointer
 void
-pushfpoff( register int off )
+pushfpoff( int off )
 {	incSp();
-	arm_adds( TOS, FP, off );
+	// operandImmediate( "orrs", TOS, FP, off );
+	arm_orImmed( TOS, FP, off );	//????
 	objsize[sp-1] = 0;
 };
 
@@ -587,7 +603,7 @@ pushdup( void )
 
 //push argument
 void
-pusharg( register int argno )
+pusharg( int argno )
 {	incSp();
 	arm_or( TOS, ( A0 + argno ), 0 );
 	objsize[sp-1] = 0;
@@ -595,7 +611,7 @@ pusharg( register int argno )
 
 //pointer
 void
-lval( register int size )
+lval( int size )
 {	objsize[sp-1] = size;
 };
 
@@ -636,7 +652,7 @@ loadnos( void )
 
 //set argument
 void
-setarg( register int argno )
+setarg( int argno )
 {	loadtos();
 	arm_or( ( A0 + argno ), TOS, 0 );
 	decSp();
@@ -644,7 +660,7 @@ setarg( register int argno )
 
 //push operand
 void
-pushop( register int op )
+pushop( int op )
 {	switch ( op ) 
 	{	case NEG:
 			loadtos();
@@ -767,7 +783,7 @@ pushop( register int op )
 
 //store 4B/2B/1B
 void
-store( register int prop )
+store( int prop )
 {	/* Store TOS into NOS */
 	loadtos();
 	switch ( objsize[sp-2] ) 
@@ -796,7 +812,7 @@ store( register int prop )
 
 //jump _label
 void
-jump( register int a )
+jump( int a )
 {	/* Compiler-generated labels are nearby...
 	   so use a branch instead
 	*/
@@ -805,7 +821,7 @@ jump( register int a )
 
 //jump on false
 void
-jumpf( register int a )
+jumpf( int a )
 {	loadtos();
 	arm_beq( TOS, 0, a );
 	decSp();
@@ -813,7 +829,7 @@ jumpf( register int a )
 
 //jump on nonzero ("true")
 void
-jumpt( register int a )
+jumpt( int a )
 {	loadtos();
 	arm_bne( TOS, 0, a );
 	decSp();
@@ -821,20 +837,20 @@ jumpt( register int a )
 
 //label handler
 void
-label( register int a )
+label( int a )
 {
 	arm_label_( a );
 };
 
 //goto handler
 void 
-ghoto( register char *s )
+ghoto( char *s )
 {	arm_j( s );
 };
 
 //
 void
-target( register char *s )
+target( char *s )
 {	arm_prelabel( s );
 };
 
@@ -857,9 +873,9 @@ startup( void )
 
 //call function by branch and link return address
 void
-call( register int mysym )
-{	register char *n = nameString( symtab[mysym].ipos );
-	register int i;
+call( int mysym )
+{	char *n = nameString( symtab[mysym].ipos );
+	int i;
 	/* We're not a leaf procedure.... */
 	isleaf = 0;
 
@@ -891,8 +907,8 @@ call( register int mysym )
 
 //function begin INT return; int foo(void) / int foo(args)
 void
-funcbegin( register int mysym )
-{	register char *n = nameString( symtab[mysym].ipos );
+funcbegin( int mysym )
+{	char *n = nameString( symtab[mysym].ipos );
 
 	fpoffset = -4;
 	highwater = 0;
@@ -918,8 +934,8 @@ funcbegin( register int mysym )
 
 //function end
 void
-funcend( register int mysym )
-{	register char *n = nameString( symtab[mysym].ipos );
+funcend( int mysym )
+{	char *n = nameString( symtab[mysym].ipos );
 
 	/* For now, functions always return an int */
 	symtab[mysym].type = FUNC;
@@ -965,9 +981,9 @@ funcend( register int mysym )
 
 //memory definition
 void
-def( register int mysym )
-{	register char *n = nameString( symtab[mysym].ipos );
-	register int asize;
+def( int mysym )
+{	char *n = nameString( symtab[mysym].ipos );
+	int asize;
 	/* Objects always are 4-byte word alligned... */
 	asize = ( ( ( symtab[mysym].size * symtab[mysym].dim ) + 3 ) & ~3 );
 
@@ -994,9 +1010,9 @@ def( register int mysym )
 
 //string memory definition
 int
-defstr( register int spos )
-{	register int num;
-	register int asize;
+defstr( int spos )
+{	int num;
+	int asize;
 
 	arm_data( DATABASE + gpoffset );
 

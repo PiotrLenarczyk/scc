@@ -181,7 +181,11 @@ decSp(void) /*decrement stack pointer*/
 {	--sp;
 };
 
-#define	printStr(s)	print(s, (sizeof(s)-1))
+void
+printStr(char* str)
+{	printf( "%s", str );
+};
+// #define	printStr(s)	print(s, (sizeof(s)-1))
 #define	printOperand(s)		{ printTab(); printStr(s); printTab(); }
 
 void
