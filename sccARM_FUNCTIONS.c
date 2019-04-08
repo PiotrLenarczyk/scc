@@ -148,7 +148,7 @@ int immed)
 	};
 	if (( rs == 0x0 ) || (immed > 0xFF))
 	{	rs = R6;
-		arm_loadImmed( rs, immed );
+		arm_loadImmed( rs );
 		printNewLine();
 		printTab();
 		// printStr( inOperand );
@@ -162,6 +162,7 @@ int immed)
 		printNewLine();
 		return;
 	};
+
 	printNewLine();
 	printTab();
 	// printStr( inOperand );
@@ -172,7 +173,7 @@ int immed)
 	printImmediate( immed );
 	printNewLine();
 };
-
+ 
 //void operandImmediate( "adds", "r0, "r1", "#-15" )
 void
 foo()
@@ -254,11 +255,18 @@ int rs )
 
 		//lui - load reg upper 2B with immediate ?
 		void
-		arm_movs( int rt,
+		arm_movsImmed( int rt,
 		int immed )
 		{	operandImmediate( "movs", rt, 0, immed );
 		};
-
+		
+		//movs
+		void
+		arm_movs( int rt,
+		int rs, 
+		int immed)
+		{	operandImmediate( "movs", rt, rs, immed );
+		};
 //immediate OR
 void
 arm_orImmed( int rt,
@@ -320,8 +328,9 @@ arm_space( int n )
 		arm_or( int rd,
 		int rs,
 		int rt )
-		{	printOperand( "orrs" );
-			arm_2reg( rd, rs );
+		{	//printOperand( "orrs" );
+			//arm_2reg( rd, rs ); 
+			operandImmediate( "orrs", rd, rs, rt );
 		};
 
 //unsigned XOR
@@ -563,23 +572,7 @@ arm_prelabel( char *s )
 void 
 pushnum( int n )
 {	incSp();
-	if ( ( n & 0xffff8000 ) == 0xffff8000 ) 
-	{	operandImmediate( "adds", TOS, 0, n  );
-		//arm_adds(  TOS, 0, n  );
-	} 
-	else if ( ( n & 0xffff0000 ) == 0 ) 
-	{	operandImmediate( "orrs", TOS, 0, n );
-		//arm_orImmed( TOS, 0, n );
-	} else if ( ( n & 0x0000ffff ) == 0 ) 
-	{	operandImmediate( "movs", TOS, 0, n );
-		//arm_movs( TOS, ( ( n >> 16 ) & 0xffff ) );
-	} 
-	else 
-	{	operandImmediate( "orrs", TOS, 0, n );	//?? 
-		//arm_movs( TOS, ( ( n >> 16 ) & 0xffff ) );
-		//arm_orImmed( TOS, TOS, ( n & 0xffff ) );
-	};
-	
+	arm_movs( TOS, TOS, n );
 	objsize[sp-1] = 0;
 };
 
@@ -595,8 +588,8 @@ pushgpoff( int off )
 void
 pushfpoff( int off )
 {	incSp();
-	// operandImmediate( "orrs", TOS, FP, off );
-	arm_orImmed( TOS, FP, off );	//????
+	operandImmediate( "adds", TOS, FP, off );
+	//arm_orImmed( TOS, FP, off );	//????
 	objsize[sp-1] = 0;
 };
 

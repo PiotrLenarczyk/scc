@@ -1153,10 +1153,9 @@ main(int argc, char **argv)
 	long lSize;
 	char * buffer;
 	size_t result;
-	puts("scc hello");
 	
 	eof = 0;
-#if (0)
+#if (1)
 	if ( argc == 0x2 )
 	{	pFile = fopen ( argv[argc - 1], "r" );
 		if (pFile==NULL) {fputs ("File error",stderr); exit (1);}

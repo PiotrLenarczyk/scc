@@ -1,7 +1,7 @@
 #pragma once
 #define NULL_REG	NULL_REG
 #define T0	R3	//first temporary reg
-#define	A0	R1	//first argument reg
+#define	A0	R0	//first argument reg
 #define	GP 	PC
 #define	FP 	R7
 #define	V0	R1
