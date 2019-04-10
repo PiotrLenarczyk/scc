@@ -95,6 +95,7 @@ void arm_loadImmed( int immed )
 	printComma();
 	print_rs( R8 );	
 //*/ 
+#if (0)
 	printNewLine();
 	printTab();printTab();printTab();
 	printOperand(  ";movs"  );
@@ -104,6 +105,47 @@ void arm_loadImmed( int immed )
 	printStr( " (" );
 	printNumber10( immed );
 	printChar( ')' );
+	printNewLine();
+#else
+	printNewLine();
+	printTab(); printTab(); printTab();
+	printOperand("ldr");
+	print_rt(R6);
+	printStr(",=");
+	printNumber(immed);
+	printStr(" ;(");
+	printNumber10(immed);
+	printChar(')');
+	printNewLine();
+#endif
+};
+
+void arm_adds2reg(int rt,
+int rs)
+{
+	if (rt == rs)	return;
+	printNewLine();
+	printOperand("adds");
+	print_rt( rt );
+	printComma();
+	print_rs(rs);
+	printNewLine();
+};
+
+
+void arm_adds3reg(int rd,
+	int rt, 
+	int rs)
+{
+	if (rt == rs)	return;
+	printNewLine();
+	printOperand("adds");
+	print_rt(rd);
+	printComma();
+	print_rs(rs);
+	printComma();
+	print_rs(rt);
+	printNewLine();
 };
 
 void arm_addsImmed(  int rTarget, 
@@ -116,8 +158,7 @@ int immed )
 	// {	printStr(",#");
 		// printNumber10( immed );
 	// };
-	
-	printNewLine();
+
 	printOperand( "adds" );
 	print_rt( rTarget );
 	printComma();
@@ -129,40 +170,55 @@ int rt,
 int rs,
 int immed)  
 {	
-	// if( rt == rs )
-		// return;
-	if ( rs )
-	{	arm_loadImmed( immed );
-		printNewLine();
-		printTab();
-		//printStr( inOperand );
-		printf("%s",inOperand);
-		printTab();
-		print_rt( rt );
-		printComma();
-		print_rs( rs );
-		printComma();
-		print_rs( R6 );
-		printNewLine();
-		return;
-	};
 	if (( rs == 0x0 ) || (immed > 0xFF))
 	{	rs = R6;
-		arm_loadImmed( rs );
-		printNewLine();
+		arm_loadImmed( immed );
+		if (rs != R6)
+		{
+			printNewLine();
+			printOperand("adds");
+			print_rt(R6);
+			printComma();
+			print_rs(rs);
+			printComma();
+			printImmediate(0);
+			printNewLine();
+		};
+
 		printTab();
 		// printStr( inOperand );
 		printf("%s",inOperand);
 		printTab();
 		print_rt( rt );
 		printComma();
-		print_rs( rs );
+		print_rs(R6);
+		printNewLine();
+		return;
+	};
+	if (rs)
+	{
+		arm_loadImmed(immed);
+		if (rs != R6)
+		{	printNewLine();
+			printOperand("adds");
+			print_rt(R6);
+			printComma();
+			print_rs(rs);
+			printComma();
+			printReg(R6);
+			printNewLine();
+		}
+
+		printTab();
+		//printStr( inOperand );
+		printf("%s", inOperand);
+		printTab();
+		print_rt(rt);
 		printComma();
 		print_rs(R6);
 		printNewLine();
 		return;
 	};
-
 	printNewLine();
 	printTab();
 	// printStr( inOperand );
@@ -172,16 +228,6 @@ int immed)
 	printComma();
 	printImmediate( immed );
 	printNewLine();
-};
- 
-//void operandImmediate( "adds", "r0, "r1", "#-15" )
-void
-foo()
-{	
-	int rTarget = 0x2;
-	int rs = 0x1;
-	int immed = -15;
-	char inOperand[] = "adds";
 };
 
 
@@ -237,22 +283,6 @@ int rt )
 	printNewLine();
 };
 
-//load register-relative immediate offset
-void
-arm_ls( int rt,
-int immed,
-int rs )
-{	
-	print_rt( rt );	//??	
-	printComma();
-	printChar( '[' );
-	print_rs( rs );
-	printComma();
-	printImmediate( immed );
-	printChar( ']' );
-	printNewLine();
-};
-
 		//lui - load reg upper 2B with immediate ?
 		void
 		arm_movsImmed( int rt,
@@ -267,6 +297,22 @@ int rs )
 		int immed)
 		{	operandImmediate( "movs", rt, rs, immed );
 		};
+
+		//movs
+		void
+		arm_movs2reg( int rt,
+		int rs )
+		{	printOperand( "movs" );
+			arm_2reg( rt, rs );
+		}
+		//mov
+		void
+		arm_mov2reg(int rt,
+		int rs)
+		{
+			printOperand("mov");
+			arm_2reg(rt, rs);
+		}
 //immediate OR
 void
 arm_orImmed( int rt,
@@ -280,7 +326,9 @@ int immed )
 		arm_adds( int rt,
 		int rs,
 		int immed )
-		{	operandImmediate( "adds", rt, rs, immed );
+		{	//operandImmediate( "adds", rt, rs, immed );
+			arm_loadImmed(immed);
+			arm_adds3reg( rt, rs, R6 );
 		};
 
 //immediate XOR
@@ -310,7 +358,9 @@ int immed )
 		//jump for address stored in register
 		void
 		arm_b( int r )
-		{	printOperand(  "b"  );
+		{	printOperand(  "mov"  );
+			printReg( PC );
+			printComma();
 			printReg( r );
 			printNewLine();
 		};
@@ -325,12 +375,16 @@ arm_space( int n )
 
 		//unsigned OR
 		void
-		arm_or( int rd,
-		int rs,
-		int rt )
-		{	//printOperand( "orrs" );
-			//arm_2reg( rd, rs ); 
-			operandImmediate( "orrs", rd, rs, rt );
+		arm_or(int rd,
+			int rs,
+			int rt)
+		{	if ( rt != 0x0 )
+			{	printOperand( "orrs" );
+				arm_2reg( rs, rt );
+			};
+			printOperand( "orrs" );
+			arm_2reg( rd, rs ); 
+			//operandImmediate( "orrs", rd, rs, rt );
 		};
 
 //unsigned XOR
@@ -397,6 +451,23 @@ int rt )
 	arm_3reg( rd, rs, rt );
 };
 
+//load register-relative immediate offset
+void
+arm_ls(int rt,
+	int immed,
+	int rs)
+{	arm_loadImmed(immed);
+	arm_adds2reg( R6, rs );
+	printOperand("ldr");
+	print_rt(R6);	//??	
+	printComma();
+	printChar('[');
+	print_rs(R6);
+	printChar(']');
+	printNewLine();
+	arm_mov2reg( rt, R6 );
+};
+
 //store 4B word
 void
 arm_sw( int rt,
@@ -439,8 +510,7 @@ void
 arm_ldr( int rt,
 int immed,
 int rs )
-{	printOperand(  "lw"  );
-	arm_ls( rt, immed, rs );
+{	arm_ls( rt, immed, rs );
 };
 
 //load 2B halfword
@@ -464,21 +534,21 @@ int rs )
 //text section
 void
 arm_text( void )
-{	printStr(  "\t.text\n"  );
+{	//printStr(  "\t.text\n"  );
 };
 
 //data section
 void
 arm_data( int n )
-{	printStr(  "\t.data\t"  );
-	printNumber( n );
-	printChar( '\n' );
+{	//printStr(  "\t.data\t"  );
+	//printNumber( n );
+	//printChar( '\n' );
 };
 
-//jump label
+//branch label
 void
-arm_j( char *s )
-{	printOperand(  "j"  );
+arm_bStr( char *s )
+{	printOperand(  "b"  );
 	while ( *s )
 	{	printChar( *s );
 		++s;
@@ -486,16 +556,16 @@ arm_j( char *s )
 	printNewLine();
 };
 
-//jump _label
+//branch _label
 void
-arm_j_( int n )
-{	printOperand(  "j"  );
+arm_b_( int n )
+{	printOperand(  "b"  );
 	printChar( '_' );
 	printNumber( n );
 	printNewLine();
 };
 
-		//jump and link _label
+		//branch and link _label
 		void
 		arm_bl_( char *s )
 		{	printOperand(  "bl"  );
@@ -516,23 +586,25 @@ arm_syscall( void )
 //global variable attribute
 void
 arm_globl( char *s )
-{	printStr(  "\t.globl\t"  );
-	while ( *s )
-	{	printChar( *s );
-		++s;
-	};
-	printNewLine();
+{	
+	//printStr(  "\t.globl\t"  );
+	//while ( *s )
+	//{	printChar( *s );
+	//	++s;
+	//};
+	//printNewLine();
 };
 
 //global attribute for _variable
 void
 arm_globl_( char *s )
-{	printStr(  "\t.globl\t_"  );
-	while ( *s )
-	{	printChar( *s );
-		++s;
-	};
-	printNewLine();
+{
+	//printStr(  "\t.globl\t_"  );
+	//while ( *s )
+	//{	printChar( *s );
+	//	++s;
+	//};
+	//printNewLine();
 };
 
 //label: print label procedure body
@@ -572,7 +644,9 @@ arm_prelabel( char *s )
 void 
 pushnum( int n )
 {	incSp();
-	arm_movs( TOS, TOS, n );
+	//arm_adds( TOS, TOS, n );
+	arm_loadImmed(n);
+	arm_mov2reg( TOS, R6 );
 	objsize[sp-1] = 0;
 };
 
@@ -588,7 +662,7 @@ pushgpoff( int off )
 void
 pushfpoff( int off )
 {	incSp();
-	operandImmediate( "adds", TOS, FP, off );
+	operandImmediate( "mov", TOS, FP, off );
 	//arm_orImmed( TOS, FP, off );	//????
 	objsize[sp-1] = 0;
 };
@@ -697,7 +771,8 @@ pushop( int op )
 			break;
 		case RETVAL:
 			loadtos();
-			arm_or( V0, TOS, 0 );
+			//arm_or( V0, TOS, 0 );	//??
+			arm_mov2reg(V0, TOS);
 			decSp();
 			break;
 		case '+':
@@ -801,7 +876,8 @@ store( int prop )
 		   Strictly speaking, x=( y=z ) sets x=( ( typeof( y ) )z ),
 		   but I don't think we have to be that precise here
 		*/
-		arm_or( NOS, TOS, 0 );
+		//arm_or( NOS, TOS, 0 );	//??
+		arm_mov2reg( NOS, TOS );
 		decSp();
 		objsize[sp-1] = 0;
 	} else 
@@ -816,7 +892,7 @@ jump( int a )
 {	/* Compiler-generated labels are nearby...
 	   so use a branch instead
 	*/
-	arm_j_( a );
+	arm_b_( a );
 };
 
 //jump on false
@@ -845,7 +921,8 @@ label( int a )
 //goto handler
 void 
 ghoto( char *s )
-{	arm_j( s );
+{
+	arm_bStr( s );
 };
 
 //
@@ -858,17 +935,16 @@ target( char *s )
 void
 startup( void )
 {	
-	printStr(  ";====\n"  );
-	printStr(  ";FOO\n"  );
-	printStr(  ";====\n"  );
-	foo(); 
-	printStr(  "\n;====\n\n\n"  );
 	arm_text();
 	arm_globl(  "main"  );
 	arm_globl_(  "exit"  );
+	printf( "THUMB\n" );
 	arm_label(  "ENTRY"  );
 	arm_label(  "main"  );
+	operandImmediate( "mov", R7, 0, 0x20000200 );
+	operandImmediate("mov", SP, 0, 0x20000400);
 	arm_bl_(  "main"  );
+	arm_bStr( "main" );
 }
 
 //call function by branch and link return address
@@ -958,7 +1034,8 @@ funcend( int mysym )
 
 		label( endlab );
 		arm_ldr( RA, -4, FP );		/* ra = fp[-4] */
-		arm_or( SP, FP, 0 );		/* sp = fp */
+		arm_mov2reg( SP, FP );		/* sp = fp */ //??
+		//arm_or( SP, FP, 0 );	
 		arm_ldr( FP, 0, SP );		/* fp = old fp */
 		arm_adds( SP, SP, 4 );		/* sp = old sp */
 		arm_b( RA );			/* return */

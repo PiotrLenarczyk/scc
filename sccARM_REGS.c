@@ -1,10 +1,10 @@
 #pragma once
 #define NULL_REG	NULL_REG
+#define	V0	R0	//return result reg
+#define	A0	R1	//first argument reg
 #define T0	R3	//first temporary reg
-#define	A0	R0	//first argument reg
 #define	GP 	PC
 #define	FP 	R7
-#define	V0	R1
 #define	RA	LR
 	enum {
 		NULL_REG, 
@@ -19,11 +19,12 @@
 		"sp", 	"lr", 	"pc", 	"apsr", 
 	};
 //=====================================================
-//{r0-r2}	-	GPR's
+//{r0}		-	GPR - function return
+//{r1-r2}	-	GPR - function argument
 //{r3-r5}	-	temporary GPR's
-//{r6}		-	spare
-//{r7}		-	FP?
-//{r8-12}	-	immediate stuff handling via stacking regs to higher regs
+//{r6}		-	spare - all data IO
+//{r7}		-	FP??
+//{r8-12}	-	immediate stuff handling via stacking regs to higher regs; stacked function return??
 //=====================================================
 //=====================================================
 //MACROS:	

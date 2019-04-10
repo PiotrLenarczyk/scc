@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.32.1.169/W32 for ARM                  02/Apr/2019  17:29:07
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  11/Apr/2019  00:01:44
 # Copyright 2007-2018 IAR Systems AB.
 #
 #    Output file  =  
@@ -8,7 +8,7 @@
 #    Map file     =  
 #        C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\List\PROJECT.map
 #    Command line =  
-#        -f C:\Users\piotr\AppData\Local\Temp\EWE7A4.tmp
+#        -f C:\Users\piotr\AppData\Local\Temp\EW19CF.tmp
 #        (C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Obj\asmCut.o
 #        --no_out_extension -o
 #        C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Exe\PROJECT.out
@@ -46,10 +46,10 @@ No sections matched the following patterns:
   .intvec   ro code   0x800'0000  0x10  asmCut.o [1]
                     - 0x800'0010  0x10
 
-"P1":                             0x16
-  .text     ro code   0x800'0010  0x14  asmCut.o [1]
-  .text     ro code   0x800'0024   0x2  asmCut.o [1]
-                    - 0x800'0026  0x16
+"P1":                             0x82
+  .text     ro code   0x800'0010  0x80  asmCut.o [1]
+  .text     ro code   0x800'0090   0x2  asmCut.o [1]
+                    - 0x800'0092  0x82
 
 "P2":                             0x40
   CSTACK             0x2000'0000  0x40  <Block>
@@ -60,7 +60,7 @@ Unused ranges:
 
          From           To    Size
          ----           --    ----
-   0x800'0026   0x800'1fff  0x1fda
+   0x800'0092   0x800'1fff  0x1f6e
   0x2000'0040  0x2000'03ff   0x3c0
 
 
@@ -76,13 +76,13 @@ command line/config:
     Total:
 
 C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Obj: [1]
-    asmCut.o             38
+    asmCut.o            146
     --------------------------------
-    Total:               38
+    Total:              146
 
     Linker created                64
 ------------------------------------
-    Grand Total:         38       64
+    Grand Total:        146       64
 
 
 *******************************************************************************
@@ -93,16 +93,16 @@ Entry                    Address  Size  Type      Object
 -----                    -------  ----  ----      ------
 CSTACK$$Base         0x2000'0000         --   Gb  - Linker created -
 CSTACK$$Limit        0x2000'0040         --   Gb  - Linker created -
-HardFault_Handler     0x800'0025        Code  Gb  asmCut.o [1]
-NMI_Handler           0x800'0025        Code  Gb  asmCut.o [1]
+HardFault_Handler     0x800'0091        Code  Gb  asmCut.o [1]
+NMI_Handler           0x800'0091        Code  Gb  asmCut.o [1]
 __iar_program_start   0x800'0011        Code  Gb  asmCut.o [1]
 __vector_table        0x800'0000        Data  Gb  asmCut.o [1]
 
 
 [1] = C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Obj
 
-  38 bytes of readonly  code memory
-  64 bytes of readwrite data memory
+  146 bytes of readonly  code memory
+   64 bytes of readwrite data memory
 
 Errors: none
 Warnings: none

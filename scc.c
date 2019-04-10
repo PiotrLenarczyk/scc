@@ -1155,7 +1155,7 @@ main(int argc, char **argv)
 	size_t result;
 	
 	eof = 0;
-#if (1)
+#if (0)
 	if ( argc == 0x2 )
 	{	pFile = fopen ( argv[argc - 1], "r" );
 		if (pFile==NULL) {fputs ("File error",stderr); exit (1);}

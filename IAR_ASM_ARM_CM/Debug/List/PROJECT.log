@@ -15,18 +15,18 @@ Loading object C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\D
               reference :  CSTACK$$Limit
 Resolving duplicate symbol definitions
 *** Marking from roots ***
-Marking symbol __iar_program_start              Glb (21 asmCut.o) [program entry]
+Marking symbol __iar_program_start              Glb (24 asmCut.o) [program entry]
   Marking fragment #3 .text (6 asmCut.o) init:always
 Marking symbol __iar_section$$root                  (3 asmCut.o) [__root]
 Marking from fragment #3 .text (6 asmCut.o) init:always
-  Marking symbol __vector_table                   Glb (22 asmCut.o)
+  Marking symbol __vector_table                   Glb (25 asmCut.o)
     Marking fragment #5 .intvec (8 asmCut.o) init:always
 Marking from fragment #5 .intvec (8 asmCut.o) init:always
-  Marking symbol CSTACK$$Limit                    Ext (25 asmCut.o)
-  Marking symbol __iar_program_start              Glb (21 asmCut.o)
-  Marking symbol NMI_Handler                      Glb (23 asmCut.o)
+  Marking symbol CSTACK$$Limit                    Ext (28 asmCut.o)
+  Marking symbol __iar_program_start              Glb (24 asmCut.o)
+  Marking symbol NMI_Handler                      Glb (26 asmCut.o)
     Marking fragment #6 .text (9 asmCut.o) init:always
-  Marking symbol NMI_Handler                      Glb (23 asmCut.o)
+  Marking symbol NMI_Handler                      Glb (26 asmCut.o)
 Marking from fragment #6 .text (9 asmCut.o) init:always
 *** Marking optional init routines ***
 *** Marking debug sections ***
@@ -46,27 +46,27 @@ References #6 .text (9 asmCut.o)
 ----- pass 2
 ----- marking from debug sections
 Marking from fragment #16 .debug_aranges (24 asmCut.o)
-  Marking symbol .debug_info22                        (20 asmCut.o)
-  Marking symbol .text9                               (14 asmCut.o)
+  Marking symbol .debug_info22                        (23 asmCut.o)
+  Marking symbol .text9                               (17 asmCut.o)
 Marking from fragment #15 .debug_info (22 asmCut.o)
-  Marking symbol .debug_abbrev17                      (16 asmCut.o)
+  Marking symbol .debug_abbrev17                      (19 asmCut.o)
     Marking fragment #13 .debug_abbrev (17 asmCut.o)
-  Marking symbol .text9                               (14 asmCut.o)
-  Marking symbol .text9                               (14 asmCut.o)
-  Marking symbol .debug_line12                        (19 asmCut.o)
+  Marking symbol .text9                               (17 asmCut.o)
+  Marking symbol .text9                               (17 asmCut.o)
+  Marking symbol .debug_line12                        (22 asmCut.o)
 Marking from fragment #13 .debug_abbrev (17 asmCut.o)
 Marking from fragment #14 .debug_aranges (19 asmCut.o)
-  Marking symbol .debug_info16                        (18 asmCut.o)
-  Marking symbol .text6                               (8 asmCut.o)
+  Marking symbol .debug_info16                        (21 asmCut.o)
+  Marking symbol .text6                               (11 asmCut.o)
 Marking from fragment #12 .debug_info (16 asmCut.o)
-  Marking symbol .debug_abbrev17                      (16 asmCut.o)
-  Marking symbol .text6                               (8 asmCut.o)
-  Marking symbol .text6                               (8 asmCut.o)
-  Marking symbol .debug_line11                        (17 asmCut.o)
+  Marking symbol .debug_abbrev17                      (19 asmCut.o)
+  Marking symbol .text6                               (11 asmCut.o)
+  Marking symbol .text6                               (11 asmCut.o)
+  Marking symbol .debug_line11                        (20 asmCut.o)
 Marking from fragment #9 .debug_line (12 asmCut.o)
-  Marking symbol .text9                               (14 asmCut.o)
+  Marking symbol .text9                               (17 asmCut.o)
 Marking from fragment #8 .debug_line (11 asmCut.o)
-  Marking symbol .text6                               (8 asmCut.o)
+  Marking symbol .text6                               (11 asmCut.o)
 
 Unused fragments:
   Section name     Index  Offset     Size  Object

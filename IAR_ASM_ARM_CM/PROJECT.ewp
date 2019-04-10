@@ -333,7 +333,7 @@
                 </option>
                 <option>
                     <name>OutputFile</name>
-                    <state></state>
+                    <state>$FILE_BNAME$.o</state>
                 </option>
                 <option>
                     <name>CCLibConfigHeader</name>
@@ -519,7 +519,7 @@
                 </option>
                 <option>
                     <name>AltRegisterNames</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>ADefines</name>

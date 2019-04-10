@@ -1,15 +1,15 @@
 ###############################################################################
 #                                                                             #
-#     IAR Assembler V8.32.1.169/W32 for ARM 02/Apr/2019  17:29:07             #
+#     IAR Assembler V8.32.1.169/W32 for ARM 11/Apr/2019  00:01:44             #
 #     Copyright 1999-2018 IAR Systems AB.                                     #
 #                                                                             #
 #           Source file   =  C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\asmCut.s#
 #           List file     =  C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\List\asmCut.lst#
 #           Object file   =  C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Obj\asmCut.o#
-#           Command line  =  -f C:\Users\piotr\AppData\Local\Temp\EWE63B.tmp  #
+#           Command line  =  -f C:\Users\piotr\AppData\Local\Temp\EW1857.tmp  #
 #                            (C:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\asmCut.s #
 #                            -OC:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\Obj #
-#                            -s+ -M<> -w+ -r                                  #
+#                            -s+ -M<> -w+ -r -j                               #
 #                            -LC:\Users\piotr\Documents\programowanieGithub\scc\IAR_ASM_ARM_CM\Debug\List #
 #                            -cAO -i -B -t2 -xDI2 --cpu Cortex-M0+ --fpu      #
 #                            None)                                            #
@@ -89,23 +89,161 @@
 
    35                           #include "21_tmpCompiler.s"
 
-    1                           thumb
+    1                           THUMB
 
-    2                           memAddr equ 0x20000080
+    2                           ENTRY:
 
     3                           main:
 
-    4    00000000 0248            ldr r0, =0xFFFFFFFF
+    4                           
 
-    5    00000002 0121            movs r1, #0x1
+    5    00000000 184E                  ldr R6, =0x20000200 ;(536871424)
 
-    6    00000004 0A18            adds r2, r1, r0
+    6    00000002 3746            mov r7,r6
 
-    7    00000006 024B            ldr r3, =memAddr
+    7                           
 
-    8    00000008 1A60            str r2, [r3]
+    8    00000004 184E                  ldr R6, =0x20000400 ;(536871936)
 
-    9                             
+    9    00000006 B546            mov sp,r6
+
+   10    00000008 00F019F8        bl  _main
+
+   11    0000000C 17E0            b _main
+
+   12                           _0x0:
+
+   13                           
+
+   14    0000000E 174E                  ldr R6, =0xFFFFFFF8 ;(-8)
+
+   15                           
+
+   16    00000010 BE19            adds  r6,r7,r6
+
+   17    00000012 3346            mov r3,r6
+
+   18                           
+
+   19    00000014 164E                  ldr R6, =0xAAAABBBB ;(-1431651397)
+
+   20    00000016 3446            mov r4,r6
+
+   21                           
+
+   22                                 
+
+   23    00000018 0026                  ldr R6, =0x0 ;(0)
+
+   24                           
+
+   25    0000001A F618            adds  r6,r6,r3
+
+   26    0000001C 3460            str r4,[r6]
+
+   27    0000001E 2346            mov r3,r4
+
+   28                           
+
+   29    00000020 144E                  ldr R6, =0xFFFFFFFF ;(-1)
+
+   30    00000022 3346            mov r3,r6
+
+   31    00000024 1846            mov r0,r3
+
+   32                           _0x1:
+
+   33                           
+
+   34    00000026 144E                  ldr R6, =0xFFFFFFFC ;(-4)
+
+   35                           
+
+   36    00000028 3E44            add r6,r7
+
+   37    0000002A 3668            ldr r6,[r6]
+
+   38    0000002C B646            mov lr,r6
+
+   39    0000002E BD46            mov sp,r7
+
+   40                           
+
+   41    00000030 0026                  ldr R6, =0x0 ;(0)
+
+   42                           
+
+   43    00000032 6E44            add r6,sp
+
+   44    00000034 3668            ldr r6,[r6]
+
+   45    00000036 3746            mov r7,r6
+
+   46                           
+
+   47    00000038 0426                  ldr R6, =0x4 ;(4)
+
+   48                           
+
+   49    0000003A B544            add sp,r6,sp
+
+   50    0000003C F746            mov pc,lr
+
+   51                           _main:
+
+   52                           
+
+   53    0000003E 0F4E                  ldr R6, =0xFFFFFFF0 ;(-16)
+
+   54                           
+
+   55    00000040 B544            add sp,r6,sp
+
+   56                           
+
+   57                                 
+
+   58    00000042 0C26                  ldr R6, =0xC ;(12)
+
+   59                           
+
+   60    00000044 6E44            add r6,r6,sp
+
+   61    00000046 3760            str r7,[r6]
+
+   62                           
+
+   63    00000048 0C26                  ldr R6, =0xC ;(12)
+
+   64    0000004A 6E44            add   r6,sp
+
+   65    0000004C 3746            mov r7,r6
+
+   66                           
+
+   67                                 
+
+   68    0000004E 0A4E                  ldr R6, =0xFFFFFFFC ;(-4)
+
+   69                           
+
+   70    00000050 F619            adds  r6,r6,r7
+
+   71                           
+
+   72    00000052 4046              mov r0, r8
+
+   73    00000054 8046                mov r8, r0
+
+   74    00000056 0020                movs r0, #0x0
+
+   75    00000058 7044                add r0, lr
+
+   76    0000005A 3060            str r0,[r6]
+
+   77    0000005C 4046                mov r0, r8
+
+   78    0000005E D6E7            b _0x0
 
    36                           //#include ""
 
@@ -119,7 +257,7 @@
 
    41                           //==========================================
 
-   42    0000000A FEE7          loopEnd: B loopEnd
+   42    00000060 FEE7          loopEnd: B loopEnd
 
    43                           //==========================================
 
@@ -127,9 +265,19 @@
 
    44.1                                  TABLE
 
-   44.2  0000000C FFFFFFFF              Reference on line 4
+   44.2  00000064 00020020              Reference on line 5
 
-   44.3  00000010 80000020              Reference on line 7
+   44.3  00000068 00040020              Reference on line 8
+
+   44.4  0000006C F8FFFFFF              Reference on line 14
+
+   44.5  00000070 BBBBAAAA              Reference on line 19
+
+   44.6  00000074 FFFFFFFF              Reference on line 29
+
+   44.7  00000078 FCFFFFFF              Reference on line 34,68
+
+   44.8  0000007C F0FFFFFF              Reference on line 53
 
    45                                   SECTION CSTACK:DATA:NOROOT(1)
 
@@ -211,6 +359,28 @@
 
 :                    DELIMITER 
 
+:AND:                OPERATOR 
+
+:EOR:                OPERATOR 
+
+:LAND:               OPERATOR 
+
+:LEOR:               OPERATOR 
+
+:LNOT:               OPERATOR 
+
+:LOR:                OPERATOR 
+
+:MOD:                OPERATOR 
+
+:NOT:                OPERATOR 
+
+:OR:                 OPERATOR 
+
+:SHL:                OPERATOR 
+
+:SHR:                OPERATOR 
+
 ;                    Target symbol: 23 
 
 <                    OPERATOR 
@@ -234,6 +404,14 @@
 >>                   OPERATOR 
 
 @                    DELIMITER 
+
+A1                   REGISTER 
+
+A2                   REGISTER 
+
+A3                   REGISTER 
+
+A4                   REGISTER 
 
 AAPCS                DIRECTIVE 
 
@@ -403,6 +581,8 @@ FARCONST             SEGMENT TYPE
 
 FARDATA              SEGMENT TYPE 
 
+FP                   REGISTER 
+
 FUNCALL              DIRECTIVE 
 
 FUNCTION             DIRECTIVE 
@@ -426,6 +606,8 @@ IF                   DIRECTIVE
 IMPORT               DIRECTIVE 
 
 INCLUDE              DIRECTIVE 
+
+IP                   REGISTER 
 
 LIBRARY              DIRECTIVE 
 
@@ -589,6 +771,8 @@ RSEG                 DIRECTIVE
 
 RTMODEL              DIRECTIVE 
 
+SB                   REGISTER 
+
 SBREL                OPERATOR 
 
 SBREL_NEAR           OPERATOR 
@@ -615,6 +799,8 @@ SIZE                 DIRECTIVE
 
 SIZEOF               OPERATOR 
 
+SL                   REGISTER 
+
 SORT                 SEGMENT TYPE 
 
 SP                   REGISTER 
@@ -632,6 +818,20 @@ UGT                  OPERATOR
 ULT                  OPERATOR 
 
 UNTYPED              SEGMENT TYPE 
+
+V1                   REGISTER 
+
+V2                   REGISTER 
+
+V3                   REGISTER 
+
+V4                   REGISTER 
+
+V5                   REGISTER 
+
+V6                   REGISTER 
+
+V7                   REGISTER 
 
 VAR                  DIRECTIVE 
 
@@ -762,27 +962,43 @@ Label               Mode   Type                   Segment    Value/Offset
 ??DUMMY_SYMBOL_IN_BACKEND_PARSED_OPERANDS
                     ABS    CONST UNTYP.           ASEG       1267 
 
+ENTRY               REL    CONST UNTYP.           .text      1 
+
 HardFault_Handler   REL    CONST PUB UNTYP.       .text      1 
 
 NMI_Handler         REL    CONST PUB UNTYP.       .text      1 
 
+THUMB               REL    CONST UNTYP.           .text      1 
+
 TID                 ABS    CONST UNTYP.           ASEG       4F00 
+
+_0x0                REL    CONST UNTYP.           .text      F 
+
+_0x1                REL    CONST UNTYP.           .text      27 
 
 __iar_program_start REL    CONST PUB UNTYP.       .text      1 
 
-__lab0              REL    CONST UNTYP.           .text      C 
+__lab0              REL    CONST UNTYP.           .text      64 
 
-__lab1              REL    CONST UNTYP.           .text      10 
+__lab1              REL    CONST UNTYP.           .text      68 
+
+__lab2              REL    CONST UNTYP.           .text      6C 
+
+__lab3              REL    CONST UNTYP.           .text      70 
+
+__lab4              REL    CONST UNTYP.           .text      74 
+
+__lab5              REL    CONST UNTYP.           .text      78 
+
+__lab6              REL    CONST UNTYP.           .text      7C 
 
 __vector_table      REL    CONST PUB UNTYP.       .intvec    0 
 
-loopEnd             REL    CONST UNTYP.           .text      B 
+_main               REL    CONST UNTYP.           .text      3F 
+
+loopEnd             REL    CONST UNTYP.           .text      61 
 
 main                REL    CONST UNTYP.           .text      1 
-
-memAddr             ABS    CONST UNTYP.           .text      20000080 
-
-thumb               REL    CONST UNTYP.           .text      1 
 
 
 
@@ -792,7 +1008,7 @@ thumb               REL    CONST UNTYP.           .text      1
 #           CRC:0            #
 #        Errors:   0         #
 #        Warnings: 0         #
-#         Bytes: 38          #
+#         Bytes: 146         #
 ##############################
 
 
