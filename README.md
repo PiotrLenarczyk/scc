@@ -1,2 +1,2 @@
 # scc
-# Henry Dietz C compiler ARM port
+# Henry Dietz C compiler trivial ARM port.
